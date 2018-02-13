@@ -2,13 +2,14 @@
 
 ## Description
 
-This module provides tasks for a multilingual static website hosted on S3.
+This module provides tasks for an multi host static website hosted on S3.
 It was developed with the AutoScout24/nginx setup in mind.
 All tasks are implemented in Node.js.
 
-## TODO
+## TODOs
 
-Make tasks independent of (AutoScout24) domain.
+- make tasks independent of (AutoScout24) domain
+- add support for belgium urls (in dead link check)
 
 ## Project requirements
 
@@ -32,11 +33,11 @@ http://as24-seo-pages-moto.s3-website-eu-west-1.amazonaws.com/moto/www.autoscout
 
 The tasks require the consuming website project to have the following setup:
 
-* The website is multilingual
+* The website is multi host
 * The website/service is identified by one or more url path prefixes
 * Content urls start with https://www.autoscout24.TLD/SERVICE-PREFIX/
 * Assets urls start with https://www.autoscout24.TLD/assets/SERVICE-PREFIX/
-* All languages are in the same S3 bucket separated by subfolders
+* All hosts are in the same S3 bucket separated by subfolders with host as name
 * The S3 bucket uses static website hosting with `index.html` as Index Document
 * All content pages have the name `index.html`
 * The S3 Bucket has the following directory layout:

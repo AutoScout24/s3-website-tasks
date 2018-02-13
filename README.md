@@ -49,26 +49,26 @@ The tasks require the consuming website project to have the following setup:
 
 ## Tasks
 
-### `checkForInternalDeadLinks({rootFolder, servicePrefixes})`
+#### `checkForInternalDeadLinks({rootFolder, servicePrefixes})`
 
 Scans all html files in the provided `rootFolder` directory for interal dead links.
 A link is considered internal if its url starts with an item of the `servicePrefixes` array.
 
 The function returns a list `DeadLinksByFile` objects which have the following structure: `{filename, deadLinks}`.
 
-### `createDeadLinksReport(deadLinksByFiles)`
+#### `createDeadLinksReport(deadLinksByFiles)`
 
 Creates a csv string out of a list of `DeadLinksByFile` objects. The output from `checkForInternalDeadLinks()` can be piped into.
 
-### `createOrUpdateStack({stackName, cloudFormationTemplate})`
+#### `createOrUpdateStack({stackName, cloudFormationTemplate})`
 
 This is Node.js version of [Stacker.create_or_update_stack](https://github.com/Scout24/autostacker24#create-or-update) from [AutoStacker24](https://github.com/Scout24/autostacker24)
 
-### `minifyImages({srcFolder, destFolder, quality = 70})`
+#### `minifyImages({srcFolder, destFolder, quality = 70})`
 
 Creates a mozjpeg optimized version and a webp version in `destFolder` for every jpeg file found inside `srcFolder`.
 
-### `uploadCustomRedirectObjects({s3BucketName, redirectsFolder})`
+#### `uploadCustomRedirectObjects({s3BucketName, redirectsFolder})`
 
 Creates custom 301 redirects using 0 byte S3 objects and the `x-amz-website-redirect-location` metadata property.
 The `redirectsFolder` is scanned for csv files which must have the host as filename (example: `www.autoscout24.de.csv`).
@@ -78,6 +78,6 @@ Example:
 
 `"moto/speling-error","moto/spelling-error"`
 
-### `uploadTrailingSlashRedirectObjects({s3BucketName, rootFolder})`
+#### `uploadTrailingSlashRedirectObjects({s3BucketName, rootFolder})`
 
 Creates zero byte S3 objects for every folder inside `rootFolder` without trailing slashes for 301 redirects to the correct url in case of missing trailing slashes.

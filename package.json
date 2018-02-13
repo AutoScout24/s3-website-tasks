@@ -1,0 +1,38 @@
+{
+  "name": "s3-static-website-tasks",
+  "version": "0.0.1",
+  "description": "S3 static website tasks",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha 'src/**/*.spec.js'",
+    "test:watch": "mocha 'src/**/*.spec.js' --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Scout24/s3-static-website-tasks.git"
+  },
+  "author": "Alex Lawrence",
+  "bugs": {
+    "url": "https://github.com/Scout24/s3-static-website-tasks/issues"
+  },
+  "homepage": "https://github.com/Scout24/s3-static-website-tasks#readme",
+  "dependencies": {
+    "aws-sdk": "2.192.0",
+    "glob": "7.1.2",
+    "graceful-fs": "4.1.11",
+    "imagemin": "5.3.1",
+    "imagemin-mozjpeg": "7.0.0",
+    "imagemin-webp": "4.1.0",
+    "mozjpeg": "5.0.0",
+    "recursive-copy": "2.0.8",
+    "util.promisify": "1.0.0"
+  },
+  "devDependencies": {
+    "chai": "4.1.2",
+    "eslint": "4.17.0",
+    "mocha": "5.0.0",
+    "mock-fs": "4.4.2",
+    "sinon": "4.2.2",
+    "sinon-chai": "2.14.0"
+  }
+}

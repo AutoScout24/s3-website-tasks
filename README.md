@@ -18,19 +18,11 @@ The code assumes a proxy server in front of S3 which rewrites all URLs correctly
 
 The url rewrite pattern is:
 
-https://FQDN/SERVICE-PREFIX/PATH/
+| Original url | Rewritten url |
+| --- | --- |
+| https://FQDN/SERVICE-PREFIX/PATH/ | http://BUCKET_NAME.s3-website-REGION.amazonaws.com/SERVICE-PREFIX/FQDN/PATH/ |
+| https://www.autoscout24.it/moto/ktm/ | http://as24-seo-pages-moto.s3-website-eu-west-1.amazonaws.com/moto/www.autoscout24.it/ktm/ |
 
-becomes
-
-http://BUCKET_NAME.s3-website-REGION.amazonaws.com/SERVICE-PREFIX/FQDN/PATH/
-
-Example:
-
-https://www.autoscout24.it/moto/ktm/
-
-becomes
-
-http://as24-seo-pages-moto.s3-website-eu-west-1.amazonaws.com/moto/www.autoscout24.it/ktm/
 
 ### Detailed requirements
 

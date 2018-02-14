@@ -13,7 +13,7 @@ describe('upload-custom-redirects-path/url-to-path', () => {
     expect(urlToPath(url)).to.match(/^service\//);
   });
 
-  it('should use the host as subfolder after the service prefix', () => {
+  it('should use the domain as subfolder after the service prefix', () => {
     const url = 'www.autoscout24.de/service/path/';
     expect(urlToPath(url)).to.match(/^[^/]+\/www\.autoscout24\.de/);
   });

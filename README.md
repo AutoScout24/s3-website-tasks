@@ -8,7 +8,7 @@ All tasks are implemented in Node.js.
 
 ## TODOs
 
-- make tasks independent of (AutoScout24) domain
+- make tasks independent of AutoScout24 (domain, assets path, etc.)
 - add support for belgium urls (in dead link check)
 
 ## Project requirements
@@ -67,7 +67,7 @@ This is a Node.js version of [Stacker.create_or_update_stack](https://github.com
 
 #### `minifyImages({srcFolder, destFolder, quality = 70})`
 
-Creates a mozjpeg optimized version and a webp version in `destFolder` for every jpeg file found inside `srcFolder`.
+Creates a mozjpeg optimized version and a webp file in `destFolder` for every jpeg file found inside `srcFolder`.
 
 #### `uploadCustomRedirectObjects({s3BucketName, redirectsFolder})`
 

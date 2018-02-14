@@ -1,0 +1,8 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t s3-static-website-tasks .
+  - docker run --rm --name s3-static-website-tasks s3-static-website-tasks

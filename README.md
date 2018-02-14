@@ -2,7 +2,7 @@
 
 ## Description
 
-This module provides tasks for an multi host static website hosted on S3.
+This module provides tasks for a multi host static website hosted on S3.
 It was developed with the AutoScout24/nginx setup in mind.
 All tasks are implemented in Node.js.
 
@@ -63,7 +63,7 @@ Creates a csv string out of a list of `DeadLinksByFile` objects. The output from
 
 #### `createOrUpdateStack({stackName, cloudFormationTemplate})`
 
-This is Node.js version of [Stacker.create_or_update_stack](https://github.com/Scout24/autostacker24#create-or-update) from [AutoStacker24](https://github.com/Scout24/autostacker24)
+This is a Node.js version of [Stacker.create_or_update_stack](https://github.com/Scout24/autostacker24#create-or-update) from [AutoStacker24](https://github.com/Scout24/autostacker24)
 
 #### `minifyImages({srcFolder, destFolder, quality = 70})`
 

@@ -19,13 +19,10 @@ module.exports = ({stackName, cloudFormationTemplate, region = 'eu-west-1'}) => 
   .then(createOrUpdateStackAsync => createOrUpdateStackAsync({
     StackName: stackName, TemplateBody: cloudFormationTemplate
   }))
-  .then(result => {
-    return waitForStackCompletion(stackName, startOfStackChanges)
-    .catch(error => {
-      if (error.message.indexOf('No updates are to be performed') == -1) {
-        throw error;
-      }
-    })
-    .then(result);
+  .then(result => waitForStackCompletion(stackName, startOfStackChanges).then(() => result))
+  .catch(error => {
+    if (error.message.indexOf('No updates are to be performed') == -1) {
+      throw error;
+    }
   });
 };

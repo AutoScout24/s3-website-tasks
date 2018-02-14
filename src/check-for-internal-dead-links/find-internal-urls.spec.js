@@ -6,12 +6,13 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
   describe('given an url which starts with a valid service prefix', () => {
 
     const pageUrl = 'https://www.autoscout24.de/my-service/foobar';
-    const servicePrefix = 'my-service';
+    const pathPrefix = 'my-service';
 
     it('should return the url given it is inside a "src" attribute', () => {
       const internalUrls = findInternalUrls({
         text: `<img src="${pageUrl}">`,
-        servicePrefixes: [servicePrefix]
+        secondLevelDomain: 'autoscout24',
+        pathPrefixes: [pathPrefix]
       });
       expect(internalUrls).to.include(pageUrl);
     });
@@ -19,7 +20,8 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
     it('should return the url given it is inside a "srcset" attribute', () => {
       const internalUrls = findInternalUrls({
         text: `<img srcset="${pageUrl}">`,
-        servicePrefixes: [servicePrefix]
+        secondLevelDomain: 'autoscout24',
+        pathPrefixes: [pathPrefix]
       });
       expect(internalUrls).to.include(pageUrl);
     });
@@ -27,7 +29,8 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
     it('should return the url given it is inside a "href" attribute', () => {
       const internalUrls = findInternalUrls({
         text: `<a href="${pageUrl}">`,
-        servicePrefixes: [servicePrefix]
+        secondLevelDomain: 'autoscout24',
+        pathPrefixes: [pathPrefix]
       });
       expect(internalUrls).to.include(pageUrl);
     });
@@ -35,7 +38,8 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
     it('should not return the url given it is inside another attribute', () => {
       const internalUrls = findInternalUrls({
         text: `<a some-attribute="${pageUrl}">`,
-        servicePrefixes: [servicePrefix]
+        secondLevelDomain: 'autoscout24',
+        pathPrefixes: [pathPrefix]
       });
       expect(internalUrls).not.to.include(pageUrl);
     });
@@ -44,7 +48,8 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
       const imageUrl = 'https://www.autoscout24.de/assets/my-service/foobar.jpg';
       const internalUrls = findInternalUrls({
         text: `<img src="${imageUrl}">`,
-        servicePrefixes: [servicePrefix]
+        secondLevelDomain: 'autoscout24',
+        pathPrefixes: [pathPrefix]
       });
       expect(internalUrls).to.include(imageUrl);
     });
@@ -53,7 +58,8 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
       const imageUrl = 'https://www.autoscout24.de/assets/my-service/foobar.webp';
       const internalUrls = findInternalUrls({
         text: `<img src="${imageUrl}">`,
-        servicePrefixes: [servicePrefix]
+        secondLevelDomain: 'autoscout24',
+        pathPrefixes: [pathPrefix]
       });
       expect(internalUrls).not.to.include(imageUrl);
     });
@@ -65,7 +71,8 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
       const url = 'https://www.autoscout24.de/another-service/foobar';
       const internalUrls = findInternalUrls({
         text: `<a href="${url}">`,
-        servicePrefixes: ['my-service']
+        secondLevelDomain: 'autoscout24',
+        pathPrefixes: ['my-service']
       });
       expect(internalUrls).not.to.include(url);
     });
@@ -76,7 +83,8 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
     const url = 'https://www.autoscout24.de/my-service-1/foobar';
     const internalUrls = findInternalUrls({
       text: `<a href="${url}">`,
-      servicePrefixes: ['my-service-2', 'my-service-1']
+      secondLevelDomain: 'autoscout24',
+      pathPrefixes: ['my-service-2', 'my-service-1']
     });
     expect(internalUrls).to.include(url);
   });

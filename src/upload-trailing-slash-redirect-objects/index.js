@@ -10,7 +10,7 @@ const globAsync = promisify(glob);
 const putObjectAsync = promisify(s3.putObject.bind(s3));
 
 module.exports = ({s3BucketName, rootFolder}) => globAsync(`${rootFolder}/!(assets)/*/**/*/`)
-.then(directories => directories.map(directory => directory.replace('public/', '')))
+.then(directories => directories.map(directory => directory.replace(`${rootFolder}/`, '')))
 .then(directories => Promise.all(
   directories.map(directory => putObjectAsync({
     Body: '',

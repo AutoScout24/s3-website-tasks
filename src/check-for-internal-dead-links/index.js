@@ -14,7 +14,9 @@ const globAsync = promisify(glob);
 const readFileAsync = promisify(fs.readFile);
 const statAsync = promisify(fs.stat);
 
-module.exports = ({rootFolder, servicePrefixes}) => globAsync(`${rootFolder}/+(${servicePrefixes.join('|')})/**/*.html`)
+module.exports = (
+  {rootFolder, secondLevelDomain, pathPrefixes}
+) => globAsync(`${rootFolder}/+(${pathPrefixes.join('|')})/**/*.html`)
 .then(filenames => Promise.all(
   filenames.map(
     filename => readFileAsync(filename).then(
@@ -24,7 +26,7 @@ module.exports = ({rootFolder, servicePrefixes}) => globAsync(`${rootFolder}/+($
 ))
 .then(files => files.map(
   file => {
-    const urls = findInternalUrls({text: file.fileContent, servicePrefixes});
+    const urls = findInternalUrls({text: file.fileContent, secondLevelDomain, pathPrefixes});
     return new UrlsByFile(file.filename, urls);
   }
 ))

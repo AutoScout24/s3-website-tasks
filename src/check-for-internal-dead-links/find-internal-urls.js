@@ -10,9 +10,11 @@ const findAllMatches = (text, regex) => {
 
 const attributes = ['href', 'srcset', 'src'];
 
-module.exports = ({text, servicePrefixes}) => {
+module.exports = (
+  {text, secondLevelDomain, pathPrefixes}
+) => {
   const urlRegex = new RegExp(
-    `(?:${attributes.join('|')})="(https?:\\/\\/www\\.autoscout24\\.[^/]+?\\/(?:assets\\/)?(?:${servicePrefixes.join('|')})[^"]*?)"`
+    `(?:${attributes.join('|')})="(https?:\\/\\/www\\.${secondLevelDomain}\\.[^/]+?\\/(?:assets\\/)?(?:${pathPrefixes.join('|')})[^"]*?)"`
     , 'gi');
   const urls = findAllMatches(text, urlRegex).map(matchResult => matchResult[1]);
   const urlsWithoutWebp = urls.filter(url => (url.indexOf('.webp') == -1));

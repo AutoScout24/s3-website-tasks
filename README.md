@@ -1,5 +1,7 @@
 # S3 static website tasks
 
+[![Build Status](https://travis-ci.org/Scout24/s3-static-website-tasks.svg?branch=master)](https://travis-ci.org/Scout24/s3-static-website-tasks)
+
 ## Description
 
 This module provides tasks for a multi domain static website hosted on S3. It was developed with the AutoScout24/nginx setup in mind.
@@ -39,7 +41,6 @@ The tasks require the consuming website project to have the following setup:
   * **assets/SERVICE-PREFIX/**: all assets
   * **SERVICE-PREFIX/**
     * **FQDN/**: content for a specific domain
-      * **some-path/index.html**: content for url https://www.as24.TLD/SERVICE-PREFIX/some-path/
   * **ANOTHER-SERVICE-PREFIX/**
     * **FQDN/**: content for a domain which uses another service prefix
 

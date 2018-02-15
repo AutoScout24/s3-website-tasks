@@ -3,8 +3,6 @@ const promisify = require('util.promisify');
 const rimraf = require('rimraf');
 
 const imagemin = require('imagemin');
-const imageminMozjpeg = require('imagemin-mozjpeg');
-const imageminWebp = require('imagemin-webp');
 
 const globAsync = promisify(glob);
 const rimrafAsync = promisify(rimraf);
@@ -20,7 +18,7 @@ const executeInSequence = (list, asyncOperation) => list.reduce(
 
 const createFallbackWebpFiles = require('./create-fallback-webp-files');
 
-module.exports = ({srcPath, destPath, quality = 70}) => rimrafAsync(destPath)
+module.exports = ({srcPath, destPath, quality = 70, imageminMozjpeg, imageminWebp}) => rimrafAsync(destPath)
 .then(() => globAsync(srcPath + '/**/*/'))
 .then(subdirectories => subdirectories.concat([srcPath]))
 .then(subdirectories => executeInSequence(

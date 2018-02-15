@@ -74,13 +74,17 @@ Creates a csv string out of a list of `DeadLinksByFile` objects. The output from
 
 This is a simplified Node.js version of [Stacker.create_or_update_stack](https://github.com/Scout24/autostacker24#create-or-update) from [AutoStacker24](https://github.com/Scout24/autostacker24). It automatically differentiates between creates and updates and also does not complain if there is nothing to update.
 
-#### `minifyImages({srcFolder, destFolder, quality = 70})`
+#### `minifyImages({srcFolder, destFolder, quality = 70, imageminWebp, imageminMozjpeg})`
 
 * **srcFolder** - The folder which is scanned for jpeg files
 * **destFolder** - The folder which the opzimized files are written to
 * **quality** - The quality which is passed to imagemin
+* **imageminWebp** - The imagemin-webp npm module
+* **imageminMozjpeg** - The imagemin-mozjpeg npm module
 
 Creates a mozjpeg optimized version and a webp file in `destFolder` for every jpeg file found inside `srcFolder`.
+
+**Note:** The imagemin plugin modules are currently passed in from the outside because they take quite long to install. This is done to reduce the installation duration of this module.
 
 #### `uploadCustomRedirectObjects({s3BucketName, redirectsFolder})`
 

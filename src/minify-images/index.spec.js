@@ -4,6 +4,8 @@ describe('minify-images', () => {
   const fs = require('fs');
   const {execSync} = require('child_process');
 
+  const imageminWebp = require('imagemin-webp');
+  const imageminMozjpeg = require('imagemin-mozjpeg');
   const promisify = require('util.promisify');
 
   const minifyImages = require('./');
@@ -21,7 +23,9 @@ describe('minify-images', () => {
   it('should create a webp for a jpeg given it can be optimized', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
-    return minifyImages({srcPath: './src/minify-images/test-images', destPath})
+    return minifyImages({
+      srcPath: './src/minify-images/test-images', destPath, imageminWebp, imageminMozjpeg
+    })
     .then(() => Promise.all([
       readFileAsync(`${destPath}/test.jpg`),
       readFileAsync(`${destPath}/test.webp`)
@@ -36,7 +40,9 @@ describe('minify-images', () => {
   it('should create a fallback webp for a jpeg given it cannot be optimized', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
-    return minifyImages({srcPath: './src/minify-images/test-images', destPath})
+    return minifyImages({
+      srcPath: './src/minify-images/test-images', destPath, imageminWebp, imageminMozjpeg
+    })
     .then(() => Promise.all([
       readFileAsync(`${destPath}/test-without-webp.jpg`),
       readFileAsync(`${destPath}/test-without-webp.webp`)
@@ -51,7 +57,9 @@ describe('minify-images', () => {
   it('should compress jpegs with mozjpeg given it can be compressed', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
-    return minifyImages({srcPath: './src/minify-images/test-images', destPath})
+    return minifyImages({
+      srcPath: './src/minify-images/test-images', destPath, imageminWebp, imageminMozjpeg
+    })
     .then(() => Promise.all([
       statAsync('./src/minify-images/test-images/test.jpg'),
       statAsync(`${destPath}/test.jpg`)
@@ -65,7 +73,9 @@ describe('minify-images', () => {
   it('should correctly process files within subfolders', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
-    return minifyImages({srcPath: './src/minify-images/test-images', destPath})
+    return minifyImages({
+      srcPath: './src/minify-images/test-images', destPath, imageminWebp, imageminMozjpeg
+    })
     .then(() => statAsync(`${destPath}/subfolder/subfolder-test.jpg`))
     .then(stat => expect(stat.size).to.be.greaterThan(0));
   });

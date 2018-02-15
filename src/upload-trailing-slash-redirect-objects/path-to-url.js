@@ -1,1 +1,1 @@
-module.exports = (path) => path.replace(/^([^/]*)\/(.*?)\/(.*)/, 'https://$2/$1/$3');
+module.exports = (path) => path.replace(/^([^/]*)\/([^/]*)\/(nl\/|fr\/)?(.*)/, 'https://$2/$3$1/$4');

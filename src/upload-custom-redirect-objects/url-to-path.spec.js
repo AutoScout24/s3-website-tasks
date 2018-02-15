@@ -23,4 +23,9 @@ describe('upload-custom-redirects-path/url-to-path', () => {
     expect(urlToPath(url)).to.match(/www\.autoscout24\.de\/path\//);
   });
 
+  it('should correctly transform the url given a belgium path prefix', () => {
+    const url = 'www.autoscout24.be/fr/service/path/';
+    expect(urlToPath(url)).to.equal('service/www.autoscout24.be/fr/path/');
+  });
+
 });

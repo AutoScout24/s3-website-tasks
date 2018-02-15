@@ -8,4 +8,9 @@ describe('upload-trailing-slash-redirect-objects/path-to-url', () => {
     expect(pathToUrl(path)).to.equal('https://www.autoscout24.de/service/subfolder/index.html');
   });
 
+  it('should correctly transform the path given a belgium language path prefix', () => {
+    const path = 'service/www.autoscout24.be/nl/subfolder/index.html';
+    expect(pathToUrl(path)).to.equal('https://www.autoscout24.be/nl/service/subfolder/index.html');
+  });
+
 });

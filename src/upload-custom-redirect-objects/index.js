@@ -33,7 +33,7 @@ module.exports = ({s3BucketName, redirectsFolder}) => globAsync(redirectsFolder 
       redirects.map(([urlPath, redirectPath]) => putObjectAsync({
         Body: '',
         Bucket: s3BucketName,
-        Key: urlToPath(`https://${domain}/${urlPath}`),
+        Key: urlToPath(`https://${domain}/${urlPath}`) + 'index.html',
         WebsiteRedirectLocation: `https://${domain}/${redirectPath}`
       }))
     )

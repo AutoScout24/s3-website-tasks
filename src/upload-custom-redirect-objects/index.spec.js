@@ -44,7 +44,7 @@ describe('upload-custom-redirect-objects', () => {
 
     it('should correctly translate the source url to an object key', () => {
       expect(putObjectStub).to.have.been.calledWith(sinon.match({
-        Key: 'service/www.autoscout24.de/some-url/',
+        Key: 'service/www.autoscout24.de/some-url/index.html',
       }));
     });
 

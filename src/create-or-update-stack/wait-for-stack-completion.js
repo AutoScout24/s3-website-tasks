@@ -25,5 +25,6 @@ module.exports = ({stackName, startOfStackChanges, cloudFormation}) => {
     .catch(reject);
   });
 
-  getStackId(stackName).then(stackId => waitForStackCompletion(stackId, startOfStackChanges));
+  return getStackId(stackName)
+  .then(stackId => waitForStackCompletion(stackId, startOfStackChanges));
 };

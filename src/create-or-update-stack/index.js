@@ -2,6 +2,7 @@ const aws = require('aws-sdk');
 const promisify = require('util.promisify');
 
 const waitForStackCompletion = require('./wait-for-stack-completion');
+const createStackChangesReport = require('./create-stack-changes-report');
 
 module.exports = ({stackName, cloudFormationTemplate, region = 'eu-west-1'}) => {
   const cloudFormation = new aws.CloudFormation({region});
@@ -21,7 +22,10 @@ module.exports = ({stackName, cloudFormationTemplate, region = 'eu-west-1'}) => 
   }))
   .then(() => waitForStackCompletion({stackName, startOfStackChanges, cloudFormation}))
   .catch(error => {
-    if (error.message.indexOf('No updates are to be performed') == -1) {
+    if (error.message.includes('No updates are to be performed')) {
+      return createStackChangesReport([], Date.now());
+    }
+    else {
       throw error;
     }
   });

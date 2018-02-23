@@ -1,4 +1,4 @@
-/* global describe, expect, it */
+/* global describe, expect, it, sandbox */
 describe('minify-images', () => {
 
   const fs = require('fs');
@@ -24,7 +24,7 @@ describe('minify-images', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
     return minifyImages({
-      srcPath: './src/minify-images/test-images', destPath, imageminWebp, imageminMozjpeg
+      srcPath: './src/minify-images/test-images', destPath, imageminPlugins: [imageminWebp, imageminMozjpeg]
     })
     .then(() => Promise.all([
       readFileAsync(`${destPath}/test.jpg`),
@@ -41,7 +41,7 @@ describe('minify-images', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
     return minifyImages({
-      srcPath: './src/minify-images/test-images', destPath, imageminWebp, imageminMozjpeg
+      srcPath: './src/minify-images/test-images', destPath, imageminPlugins: [imageminWebp, imageminMozjpeg]
     })
     .then(() => Promise.all([
       readFileAsync(`${destPath}/test-without-webp.jpg`),
@@ -58,7 +58,7 @@ describe('minify-images', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
     return minifyImages({
-      srcPath: './src/minify-images/test-images', destPath, imageminWebp, imageminMozjpeg
+      srcPath: './src/minify-images/test-images', destPath, imageminPlugins: [imageminWebp, imageminMozjpeg]
     })
     .then(() => Promise.all([
       statAsync('./src/minify-images/test-images/test.jpg'),
@@ -74,10 +74,25 @@ describe('minify-images', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
     return minifyImages({
-      srcPath: './src/minify-images/test-images', destPath, imageminWebp, imageminMozjpeg
+      srcPath: './src/minify-images/test-images', destPath, imageminPlugins: [imageminWebp, imageminMozjpeg]
     })
     .then(() => statAsync(`${destPath}/subfolder/subfolder-test.jpg`))
     .then(stat => expect(stat.size).to.be.greaterThan(0));
+  });
+
+  it('should call the provided reporting callback with descriptive information', () => {
+    const imageminPlugins = [imageminWebp, imageminMozjpeg];
+    const reportingCallback = sandbox.spy();
+    const destPath = '.tmp/' + Math.random().toString();
+    setupSandboxDirectory(destPath);
+    return minifyImages({
+      srcPath: './src/minify-images/test-images/', destPath, imageminPlugins, reportingCallback
+    })
+    .then(() => {
+      expect(reportingCallback).to.have.been.calledWith('executing imagemin plugin no. 1');
+      expect(reportingCallback).to.have.been.calledWith('processing ./src/minify-images/test-images/');
+      expect(reportingCallback).to.have.been.calledWith('processing ./src/minify-images/test-images/subfolder/');
+    });
   });
 
 

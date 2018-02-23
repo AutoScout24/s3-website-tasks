@@ -12,21 +12,27 @@ const executeImagemin = (inputDirectory, outputDirectory, plugins) => imagemin(
 );
 
 const executeInSequence = (list, asyncOperation) => list.reduce(
-  (previousOperation, listItem) => (previousOperation.then(asyncOperation.bind(null, listItem))),
+  (previousOperation, listItem, index) => (previousOperation.then(asyncOperation.bind(null, listItem, index))),
   Promise.resolve()
 );
 
 const createFallbackWebpFiles = require('./create-fallback-webp-files');
 
-module.exports = ({srcPath, destPath, quality = 70, imageminMozjpeg, imageminWebp}) => rimrafAsync(destPath)
+module.exports = ({
+  srcPath, destPath, quality = 70, imageminPlugins, reportingCallback = () => {}
+}) => rimrafAsync(destPath)
 .then(() => globAsync(srcPath + '/**/*/'))
 .then(subdirectories => subdirectories.concat([srcPath]))
-.then(subdirectories => executeInSequence(
-  subdirectories,
-  subdirectory => executeImagemin(subdirectory, subdirectory.replace(srcPath, destPath), [imageminMozjpeg(quality)])
-).then(() => subdirectories))
-.then(subdirectories => executeInSequence(
-  subdirectories,
-  subdirectory => executeImagemin(subdirectory, subdirectory.replace(srcPath, destPath), [imageminWebp(quality)])
-))
+.then(subdirectories => executeInSequence(imageminPlugins, (imageminPlugin, index) => {
+  reportingCallback('executing imagemin plugin no. ' + (index + 1));
+  return executeInSequence(
+    subdirectories,
+    subdirectory => {
+      reportingCallback('processing ' + subdirectory);
+      return executeImagemin(
+        subdirectory, subdirectory.replace(srcPath, destPath), [imageminPlugin(quality)]
+      );
+    }
+  );
+}))
 .then(createFallbackWebpFiles.bind(null, destPath));

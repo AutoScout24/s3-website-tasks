@@ -73,7 +73,7 @@ Creates a csv string out of a list of `DeadLinksByFile` objects. The output from
 
 Creates custom redirect definitions which can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property. The `redirectsFolder` is scanned for csv files which must have the FQDN as filename (example: `www.autoscout24.de.csv`). The first column must be the url FROM which should be redirected and the second column the url TO which should be redirected.
 
-The function yields a list of `RedirectObject` objects which have the following structure: `{s3Key, redirectUrl}`.
+The function yields a list of `RedirectDefinition` objects which have the following structure: `{s3Key, redirectUrl}`.
 
 Example:
 
@@ -85,7 +85,7 @@ Example:
 
 Creates trailing slash redirect definitions for all folders inside `rootFolder`. The respective resulting key is the same as the according folder but without the trailing slash. The definitions can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property.
 
-The function yields a list of `RedirectObject` objects which have the following structure: `{s3Key, redirectUrl}`.
+The function yields a list of `RedirectDefinition` objects which have the following structure: `{s3Key, redirectUrl}`.
 
 #### `createOrUpdateStack({stackName, cloudFormationTemplate})`
 

@@ -67,6 +67,26 @@ The function yields a list `DeadLinksByFile` objects which have the following st
 
 Creates a csv string out of a list of `DeadLinksByFile` objects. The output from `checkForInternalDeadLinks()` can be piped into.
 
+#### `createCustomRedirectDefinitions(redirectsFolder)`
+
+* **redirectsFolder** - The folder containing redirect csv files for every FQDN
+
+Creates custom redirect definitions which can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property. The `redirectsFolder` is scanned for csv files which must have the FQDN as filename (example: `www.autoscout24.de.csv`). The first column must be the url FROM which should be redirected and the second column the url TO which should be redirected.
+
+The function yields a list of `RedirectObject` objects which have the following structure: `{s3Key, redirectUrl}`.
+
+Example:
+
+`"moto/speling-error","moto/spelling-error"`
+
+#### `createTrailingSlashRedirectDefinitions(rootFolder)`
+
+* **rootFolder** - The folder containing all html files
+
+Creates trailing slash redirect definitions for all folders inside `rootFolder`. The respective resulting key is the same as the according folder but without the trailing slash. The definitions can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property.
+
+The function yields a list of `RedirectObject` objects which have the following structure: `{s3Key, redirectUrl}`.
+
 #### `createOrUpdateStack({stackName, cloudFormationTemplate})`
 
 * **stackName** - Name of the AWS stack
@@ -85,23 +105,3 @@ This is a simplified Node.js version of [Stacker.create_or_update_stack](https:/
 Creates a mozjpeg optimized version and a webp file in `destFolder` for every jpeg file found inside `srcFolder`.
 
 **Note:** The imagemin plugin modules are currently passed in from the outside because they take quite long to install. This is done to reduce the installation duration of this module.
-
-#### `uploadCustomRedirectObjects({s3BucketName, redirectsFolder})`
-
-* **s3BucketName** - The name of the target S3 bucket
-* **redirectsFolder** - The folder containing redirect csv files for every FQDN
-
-Creates custom 301 redirects using 0 byte S3 objects and the `x-amz-website-redirect-location` metadata property.
-The `redirectsFolder` is scanned for csv files which must have the FQDN as filename (example: `www.autoscout24.de.csv`).
-The first column is the url FROM which will be redirected and the second column is the url TO which will be redirected.
-
-Example:
-
-`"moto/speling-error","moto/spelling-error"`
-
-#### `uploadTrailingSlashRedirectObjects({s3BucketName, rootFolder})`
-
-* **s3BucketName** - The name of the target S3 bucket
-* **rootFolder** - The folder containing all html files
-
-Creates zero byte S3 objects for every folder inside `rootFolder` without trailing slashes for 301 redirects to the correct url in case of missing trailing slashes.

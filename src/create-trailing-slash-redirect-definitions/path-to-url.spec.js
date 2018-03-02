@@ -1,5 +1,5 @@
 /* global describe, expect, it */
-describe('upload-trailing-slash-redirect-objects/path-to-url', () => {
+describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
 
   const pathToUrl = require('./path-to-url');
 

@@ -1,5 +1,5 @@
 /* global describe, expect, it */
-describe('upload-custom-redirect-objects/parse-csv', () => {
+describe('create-custom-redirect-definitions/parse-csv', () => {
 
   const parseCsv = require('./parse-csv');
 

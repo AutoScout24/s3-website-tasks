@@ -1,5 +1,5 @@
 /* global describe, expect, it */
-describe('upload-custom-redirects-path/url-to-path', () => {
+describe('create-custom-redirect-definitions/url-to-path', () => {
 
   const urlToPath = require('./url-to-path');
 

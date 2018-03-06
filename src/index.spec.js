@@ -1,13 +1,13 @@
 /* global describe, expect, it, */
-describe('s3-static-website-tasks', () => {
+describe('s3-website-tasks', () => {
 
-  const s3StaticWebsiteTasks = require('./');
+  const s3WebsiteTasks = require('./');
 
   it('should expose all functions correctly', () => {
-    const functionNames = Object.keys(s3StaticWebsiteTasks);
+    const functionNames = Object.keys(s3WebsiteTasks);
     expect(functionNames.length).to.be.above(0);
     functionNames.forEach(functionName => {
-      expect(s3StaticWebsiteTasks[functionName]).to.be.a('function');
+      expect(s3WebsiteTasks[functionName]).to.be.a('function');
     });
   });
 

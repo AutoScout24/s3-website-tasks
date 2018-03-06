@@ -1,7 +1,7 @@
 {
-  "name": "s3-static-website-tasks",
+  "name": "s3-website-tasks",
   "version": "0.0.1",
-  "description": "S3 static website tasks",
+  "description": "S3 website tasks",
   "main": "src/index.js",
   "scripts": {
     "test": "mocha 'src/**/*.spec.js'",
@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Scout24/s3-static-website-tasks.git"
+    "url": "git+https://github.com/Scout24/s3-website-tasks.git"
   },
   "author": "Alex Lawrence",
   "bugs": {
-    "url": "https://github.com/Scout24/s3-static-website-tasks/issues"
+    "url": "https://github.com/Scout24/s3-website-tasks/issues"
   },
-  "homepage": "https://github.com/Scout24/s3-static-website-tasks#readme",
+  "homepage": "https://github.com/Scout24/s3-website-tasks#readme",
   "dependencies": {
     "aws-sdk": "2.192.0",
     "glob": "7.1.2",

@@ -1,10 +1,10 @@
-# S3 static website tasks
+# S3 website tasks
 
-[![Build Status](https://travis-ci.org/Scout24/s3-static-website-tasks.svg?branch=master)](https://travis-ci.org/Scout24/s3-static-website-tasks)
+[![Build Status](https://travis-ci.org/Scout24/s3-website-tasks.svg?branch=master)](https://travis-ci.org/Scout24/s3-website-tasks)
 
 ## Description
 
-This module provides tasks for a multi domain static website hosted on S3. It was developed with the AutoScout24/nginx setup in mind.
+This module provides tasks for a multi domain website hosted on S3. It was developed with the AutoScout24/nginx setup in mind.
 
 All tasks are implemented in Node.js.
 

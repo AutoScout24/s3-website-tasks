@@ -4,45 +4,52 @@
 
 ## Description
 
-This module provides tasks for a multi domain website hosted on S3. It was developed with the AutoScout24/nginx setup in mind.
-
-All tasks are implemented in Node.js.
-
-## TODOs
-
-- add support for belgium language urls (only in dead link check?)
+Node.js build tasks for a multilingual website hosted in S3.
 
 ## Project requirements
 
-### URL rewrites
-
-The code assumes a proxy server in front of S3 which rewrites all URLs correctly.
-
-The url rewrite pattern is:
-
-| Original url | Rewritten url |
-| --- | --- |
-| https://FQDN/SERVICE-PREFIX/PATH/ | http://BUCKET_NAME.s3-website-REGION.amazonaws.com/SERVICE-PREFIX/FQDN/PATH/ |
-| https://www.autoscout24.it/moto/ktm/ | http://as24-seo-pages-moto.s3-website-eu-west-1.amazonaws.com/moto/www.autoscout24.it/ktm/ |
-
-
-### Detailed requirements
-
 The tasks require the consuming website project to have the following setup:
 
-* The website provides different versions per domain
+* The website provides different country versions per top level domain
 * The website is identified by one or more url path prefixes
-* Content urls start with https://FQDN/SERVICE-PREFIX/
-* Assets urls start with https://FQDN/assets/SERVICE-PREFIX/
-* All versions are in the same S3 bucket separated by subfolders with FQDN as name
+* Content urls start with https://3LD.2LD.TLD/CONTENT-PATH-PREFIX/
+* Assets urls start with https://3LD.2LD.TLD/assets/ASSETS-PATH-PREFIX/
+* All countries are in the same S3 bucket separated by subfolders with TLD as name
 * The S3 bucket uses static website hosting with `index.html` as Index Document
 * All content pages have the name `index.html`
-* The S3 Bucket has the following directory layout:
-  * **assets/SERVICE-PREFIX/**: all assets
-  * **SERVICE-PREFIX/**
-    * **FQDN/**: content for a specific domain
-  * **ANOTHER-SERVICE-PREFIX/**
-    * **FQDN/**: content for a domain which uses another service prefix
+
+### Artifacts directory layout
+
+The artifacts folder and the S3 bucket must have the following directory layout:
+
+  * **assets/ASSETS-PATH-PREFIX/**: all assets
+  * **content/**
+    * **de/**: content for germany
+    * **it/**: content for italy
+    * **be/**: content for belgium
+      * **fr/**: french content for belgium
+      * **nl/**: dutch content for belgium
+
+### URL rewrites
+
+The tasks assume a proxy server in front of S3 which rewrites all URLs correctly (such as nginx of CloudFront).
+
+The required URL rewrite patterns are:
+
+| Original URL | Rewritten URL |
+| --- | --- |
+| https://3LD.2LD.TLD/CONTENT-PATH-PREFIX/PATH/ | http://BUCKET-NAME.s3-website-AWS-REGION.amazonaws.com/content/TLD/PATH |
+| https://3LD.2LD.TLD/LANG/CONTENT-PATH-PREFIX/PATH/ | http://BUCKET-NAME.s3-website-AWS-REGION.amazonaws.com/content/TLD/LANG/PATH |
+| https://3LD.2LD.TLD/assets/ASSETS-PATH-PREFIX/PATH | http://BUCKET-NAME.s3-website-AWS-REGION.amazonaws.com/assets/ASSETS-PATH-PREFIX/PATH |
+
+AutoScout24 example of the seo auto catalogue:
+
+| Original URL | Rewritten URL |
+| --- | --- |
+| https://www.autoscout24.de/auto/bmw/ | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/content/de/bmw/ |
+| https://www.autoscout24.fr/voiture/bmw/ | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/content/fr/bmw/ |
+| https://www.autoscout24.be/nl/auto/bmw/ | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/content/be/nl/bmw/ |
+| https://www.autoscout24.de/assets/auto/images/foobar.jpg | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/assets/auto/images/foobar.jpg |
 
 ## Tasks
 
@@ -52,10 +59,10 @@ All tasks return a `Promise` object.
 
 * **rootFolder** - Folder which will be scanned for html files
 * **secondLevelDomain** - Second level domain of the FQDN (e.g. autoscout24)
+* **thirdLevelDomain** - Third level domain of the FQDN (default: www)
 * **pathPrefixes** - Array of url path prefixes used for the service/website
 
-Scans all html files found in `rootFolder` for interal dead links.
-A link is considered internal if its url contains the `secondLevelDomain` (e.g. autoscout24) and an item of the `servicePrefixes` array.
+Scans all html files found in `rootFolder` for internal dead links. Both relative urls and urls containing the `thirdLevelDomain` and `secondLevelDomain` are taken into account. Relative URLs only support paths starting with /. Links are considered internal if their url path start with one of the `servicesPrefixes` array.
 
 The function yields a list `DeadLinksByFile` objects which have the following structure: `{filename, deadLinks}`.
 
@@ -73,19 +80,25 @@ Creates a csv string out of a list of `DeadLinksByFile` objects. The output from
 
 Creates custom redirect definitions which can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property. The `redirectsFolder` is scanned for csv files which must have the FQDN as filename (example: `www.autoscout24.de.csv`). The first column must be the url FROM which should be redirected and the second column the url TO which should be redirected.
 
+**Note:** This function assumes HTTPS as protocol.
+
 The function yields a list of `RedirectDefinition` objects which have the following structure: `{s3Key, redirectUrl}`.
 
-Example:
+Example csv file format:
 
 `"moto/speling-error","moto/spelling-error"`
 
-#### `createTrailingSlashRedirectDefinitions(rootFolder)`
+#### `createTrailingSlashRedirectDefinitions({tldFolder, pathPrefix})`
 
-* **rootFolder** - The folder containing all html files
+* **fqdn** - The fully qualified domain name
+* **pathPrefix** - The url path prefix to use for redirects
+* **rootFolder** - The folder with all html files inside TLD subdirectories
 
-Creates trailing slash redirect definitions for all folders inside `rootFolder`. The respective resulting key is the same as the according folder but without the trailing slash. The definitions can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property.
+Creates trailing slash redirect definitions for folder responsible for the TLD of the provided FQDN inside `rootFolder`. The `fqdn` and `pathPrefix` parameters are required in order to construct the correct redirect URL. The respective resulting key is the same as the according folder but without the trailing slash. The definitions can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property.
 
 The function yields a list of `RedirectDefinition` objects which have the following structure: `{s3Key, redirectUrl}`.
+
+**Note:** This function automatically assumes HTTPS as protocol.
 
 #### `createOrUpdateStack({stackName, cloudFormationTemplate})`
 

@@ -1,3 +1,3 @@
 module.exports = (url) => url
 .replace(/https?:\/\//, '')
-.replace(/([^/]+)\/(fr\/|nl\/)?([^/]*)\/(.*)$/, '$3/$1/$2$4');
+.replace(/.*?([^/.]+)\/(fr\/|nl\/)?(?:[^/]*)\/(.*)$/, 'content/$1/$2$3');

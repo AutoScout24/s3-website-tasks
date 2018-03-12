@@ -13,21 +13,21 @@ describe('check-internal-dead-links/url-to-filename', () => {
     expect(urlToFilename(url)).to.equal('assets/service/file.jpg');
   });
 
-  describe('given a non assets url', () => {
+  describe('given a content url', () => {
 
-    it('should add the service as first path component', () => {
+    it('should add the term "content" as first path component', () => {
       const url = 'www.autoscout24.de/service/path/';
-      expect(urlToFilename(url)).to.match(/^service\//);
+      expect(urlToFilename(url)).to.match(/^content\//);
     });
 
-    it('should use the host as subfolder after the service prefix', () => {
+    it('should use the top level domain as subfolder after the service prefix', () => {
       const url = 'www.autoscout24.de/service/path/';
-      expect(urlToFilename(url)).to.match(/^[^/]+\/www\.autoscout24\.de/);
+      expect(urlToFilename(url)).to.match(/^[^/]+\/de/);
     });
 
     it('should append the rest of the path components after the host', () => {
       const url = 'www.autoscout24.de/service/path/';
-      expect(urlToFilename(url)).to.match(/www\.autoscout24\.de\/path\//);
+      expect(urlToFilename(url)).to.match(/de\/path\//);
     });
 
     it('should append the index.html at the end', () => {
@@ -36,6 +36,5 @@ describe('check-internal-dead-links/url-to-filename', () => {
     });
 
   });
-
 
 });

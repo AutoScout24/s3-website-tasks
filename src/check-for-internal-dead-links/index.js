@@ -15,8 +15,8 @@ const readFileAsync = promisify(fs.readFile);
 const statAsync = promisify(fs.stat);
 
 module.exports = (
-  {rootFolder, secondLevelDomain, pathPrefixes}
-) => globAsync(`${rootFolder}/+(${pathPrefixes.join('|')})/**/*.html`)
+  {rootFolder, thirdLevelDomain = 'www', secondLevelDomain, pathPrefixes}
+) => globAsync(`${rootFolder}/content/**/*.html`)
 .then(filenames => Promise.all(
   filenames.map(
     filename => readFileAsync(filename).then(
@@ -26,8 +26,11 @@ module.exports = (
 ))
 .then(files => files.map(
   file => {
-    const urls = findInternalUrls({text: file.fileContent, secondLevelDomain, pathPrefixes});
-    return new UrlsByFile(file.filename, urls);
+    const urls = findInternalUrls({text: file.fileContent, thirdLevelDomain, secondLevelDomain, pathPrefixes});
+    const tld = file.filename.split('/')[2];
+    const fqdn = `${thirdLevelDomain}.${secondLevelDomain}.${tld}`;
+    const absoluteUrls = urls.map(url => url.includes(fqdn) ? url : fqdn + url);
+    return new UrlsByFile(file.filename, absoluteUrls);
   }
 ))
 .then(urlsByFiles => Promise.all(

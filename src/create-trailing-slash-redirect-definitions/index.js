@@ -11,9 +11,11 @@ class RedirectDefinition {
   }
 }
 
-module.exports = (rootFolder) => globAsync(`${rootFolder}/!(assets)/*/**/*/`)
+const getTld = fqdn => fqdn.match(/[^.]+$/)[0];
+
+module.exports = ({fqdn, pathPrefix, rootFolder}) => globAsync(`${rootFolder}/content/${getTld(fqdn)}**/*/`)
 .then(directories => directories.map(directory => directory.replace(`${rootFolder}/`, '')))
 .then(directories => directories.map(directory => new RedirectDefinition({
   s3Key: directory.replace(/\/$/, ''),
-  redirectUrl: pathToUrl(directory)
+  redirectUrl: pathToUrl({fqdn, pathPrefix, path: directory})
 })));

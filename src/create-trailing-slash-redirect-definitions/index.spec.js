@@ -15,12 +15,14 @@ describe('create-trailing-slash-redirect-definitions', () => {
 
   it('should return a definition with an s3 key without trailing slash and a correct redirect url given one directory', () => {
     mockFs({
-      'public/service/www.autoscout24.de/some-folder': {}
+      'public/content/de/some-folder': {}
     });
-    return createTrailingSlashRedirectDefinitions('public')
+    return createTrailingSlashRedirectDefinitions(
+      {fqdn: 'www.autoscout24.de', pathPrefix: 'service', rootFolder: 'public'}
+    )
     .then(([redirectDefinition]) => {
       expect(redirectDefinition).to.deep.equal({
-        s3Key: 'service/www.autoscout24.de/some-folder',
+        s3Key: 'content/de/some-folder',
         redirectUrl: 'https://www.autoscout24.de/service/some-folder/'
       });
     });
@@ -28,23 +30,21 @@ describe('create-trailing-slash-redirect-definitions', () => {
 
   it('should process all directories correctly given multiple ones', () => {
     mockFs({
-      'public/service/www.autoscout24.de/some-folder': {},
-      'public/service/www.autoscout24.de/some-other-folder': {},
-      'public/service/www.autoscout24.es/another-one': {}
+      'public/content/de/some-folder': {},
+      'public/content/de/some-other-folder': {},
+      'public/content/es/another-one': {}
     });
-    return createTrailingSlashRedirectDefinitions('public')
-    .then(([firstRedirectDefinition, secondRedirectDefinition, thirdRedirectDefinition]) => {
+    return createTrailingSlashRedirectDefinitions(
+      {fqdn: 'www.autoscout24.de', pathPrefix: 'service', rootFolder: 'public'}
+    )
+    .then(([firstRedirectDefinition, secondRedirectDefinition]) => {
       expect(firstRedirectDefinition).to.deep.equal({
-        s3Key: 'service/www.autoscout24.de/some-folder',
+        s3Key: 'content/de/some-folder',
         redirectUrl: 'https://www.autoscout24.de/service/some-folder/'
       });
       expect(secondRedirectDefinition).to.deep.equal({
-        s3Key: 'service/www.autoscout24.de/some-other-folder',
+        s3Key: 'content/de/some-other-folder',
         redirectUrl: 'https://www.autoscout24.de/service/some-other-folder/'
-      });
-      expect(thirdRedirectDefinition).to.deep.equal({
-        s3Key: 'service/www.autoscout24.es/another-one',
-        redirectUrl: 'https://www.autoscout24.es/service/another-one/'
       });
     });
   });

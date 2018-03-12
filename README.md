@@ -88,7 +88,7 @@ Example csv file format:
 
 `"moto/speling-error","moto/spelling-error"`
 
-#### `createTrailingSlashRedirectDefinitions({tldFolder, pathPrefix})`
+#### `createTrailingSlashRedirectDefinitions({fqdn, pathPrefix, rootFolder})`
 
 * **fqdn** - The fully qualified domain name
 * **pathPrefix** - The url path prefix to use for redirects

@@ -29,7 +29,7 @@ module.exports = (
     const urls = findInternalUrls({text: file.fileContent, thirdLevelDomain, secondLevelDomain, urlPathPrefixes});
     const tld = file.filename.split('/')[2];
     const fqdn = `${thirdLevelDomain}.${secondLevelDomain}.${tld}`;
-    const absoluteUrls = urls.map(url => url.includes(fqdn) ? url : fqdn + url);
+    const absoluteUrls = urls.map(url => url.includes(fqdn) ? url : `https://${fqdn}${url}`);
     return new UrlsByFile(file.filename, absoluteUrls);
   }
 ))

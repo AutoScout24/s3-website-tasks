@@ -153,6 +153,16 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
       expect(internalUrls).not.to.include(url);
     });
 
+    it('should not include it given it is an assets url', () => {
+      const url = 'https://www.autoscout24.de/assets/another-service/foobar/';
+      const internalUrls = findInternalUrls({
+        text: `<a href="${url}">`,
+        secondLevelDomain: 'autoscout24',
+        urlPathPrefixes: ['my-service']
+      });
+      expect(internalUrls).not.to.include(url);
+    });
+
   });
 
   describe('given the url matches one of the prefixes given multiple prefixes', () => {

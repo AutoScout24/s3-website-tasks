@@ -22,7 +22,7 @@ The tasks require the consuming website project to have the following setup:
 
 The artifacts folder and the S3 bucket must have the following directory layout:
 
-  * **assets/ASSETS-PATH-PREFIX/**: all assets
+  * **assets/**: all assets
   * **content/**
     * **de/**: content for germany
     * **it/**: content for italy
@@ -40,7 +40,7 @@ The required URL rewrite patterns are:
 | --- | --- |
 | https://3LD.2LD.TLD/CONTENT-PATH-PREFIX/PATH/ | http://BUCKET-NAME.s3-website-AWS-REGION.amazonaws.com/content/TLD/PATH |
 | https://3LD.2LD.TLD/LANG/CONTENT-PATH-PREFIX/PATH/ | http://BUCKET-NAME.s3-website-AWS-REGION.amazonaws.com/content/TLD/LANG/PATH |
-| https://3LD.2LD.TLD/assets/ASSETS-PATH-PREFIX/PATH | http://BUCKET-NAME.s3-website-AWS-REGION.amazonaws.com/assets/ASSETS-PATH-PREFIX/PATH |
+| https://3LD.2LD.TLD/assets/ASSETS-PATH-PREFIX/PATH | http://BUCKET-NAME.s3-website-AWS-REGION.amazonaws.com/assets/PATH |
 
 AutoScout24 example of the seo auto catalogue:
 
@@ -49,7 +49,7 @@ AutoScout24 example of the seo auto catalogue:
 | https://www.autoscout24.de/auto/bmw/ | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/content/de/bmw/ |
 | https://www.autoscout24.fr/voiture/bmw/ | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/content/fr/bmw/ |
 | https://www.autoscout24.be/nl/auto/bmw/ | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/content/be/nl/bmw/ |
-| https://www.autoscout24.de/assets/auto/images/foobar.jpg | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/assets/auto/images/foobar.jpg |
+| https://www.autoscout24.de/assets/auto/images/foobar.jpg | http://as24-seo-pages-auto.s3-website-eu-west-1.amazonaws.com/assets/images/foobar.jpg |
 
 ## Tasks
 
@@ -62,7 +62,7 @@ All tasks return a `Promise` object.
 * **thirdLevelDomain** - Third level domain of the FQDN (default: www)
 * **urlPathPrefixes** - Array of url path prefixes used for the service/website
 
-Scans all html files found in `rootFolder` for internal dead links. Both relative urls and urls containing the `thirdLevelDomain` and `secondLevelDomain` are taken into account. Relative URLs only support paths starting with /. Links are considered internal if their url path start with one of the `urlPathPrefixes` array.
+Scans all html files found in `rootFolder` for internal dead links. Both relative urls and urls containing the `thirdLevelDomain` and `secondLevelDomain` are taken into account. **Relative URLs only support paths starting with /**. Links are considered internal if their url path start with one of the `urlPathPrefixes` array.
 
 The function yields a list `DeadLinksByFile` objects which have the following structure: `{filename, deadLinks}`.
 

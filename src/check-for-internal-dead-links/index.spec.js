@@ -38,13 +38,42 @@ describe('check-for-internal-dead-links', () => {
       expect(deadLinksByFiles[0].deadLinks).to.deep.equal([
         'https://www.autoscout24.de/moto/dead-link-1/',
         'https://www.autoscout24.de/moto/dead-link-2/',
-        'www.autoscout24.de/moto/dead-link-3/',
-        'www.autoscout24.de/moto/dead-link-4/'
+        'https://www.autoscout24.de/moto/dead-link-3/',
+        'https://www.autoscout24.de/moto/dead-link-4/'
       ]);
       expect(deadLinksByFiles[1].filename).to.equal('public/content/de/ktm/index.html');
       expect(deadLinksByFiles[1].deadLinks).to.deep.equal([
         'https://www.autoscout24.de/moto/dead-link-5/',
-        'www.autoscout24.de/moto/dead-link-6/'
+        'https://www.autoscout24.de/moto/dead-link-6/'
+      ]);
+    });
+  });
+
+  it('should report dead links given internal asset links inside supported attributes', () => {
+    mockFs({
+      'public/content/de': {
+        'bmw': {
+          'index.html': `
+            <a href="https://www.autoscout24.de/assets/moto/dead-link-1.jpg">
+            <img src="https://www.autoscout24.de/assets/moto/dead-link-2.jpg">
+            <a href="/assets/moto/dead-link-3.jpg">
+            <img src="/assets/moto/dead-link-4.jpg">
+          `
+        }
+      }
+    });
+    return checkForInternalDeadLinks({
+      rootFolder: 'public',
+      secondLevelDomain: 'autoscout24',
+      urlPathPrefixes: ['moto']
+    }).then(deadLinksByFiles => {
+      expect(deadLinksByFiles.length).to.equal(1);
+      expect(deadLinksByFiles[0].filename).to.equal('public/content/de/bmw/index.html');
+      expect(deadLinksByFiles[0].deadLinks).to.deep.equal([
+        'https://www.autoscout24.de/assets/moto/dead-link-1.jpg',
+        'https://www.autoscout24.de/assets/moto/dead-link-2.jpg',
+        'https://www.autoscout24.de/assets/moto/dead-link-3.jpg',
+        'https://www.autoscout24.de/assets/moto/dead-link-4.jpg'
       ]);
     });
   });
@@ -66,10 +95,14 @@ describe('check-for-internal-dead-links', () => {
 
   it('should not report dead links given valid internal links', () => {
     mockFs({
+      'public/assets': {
+        'image.jpg': 'image'
+      },
       'public/content/de': {
         'index.html': `
           <a href="https://www.autoscout24.de/moto/bmw/">
           <a href="/moto/bmw/">
+          <img src="https://www.autoscout24.de/assets/moto/image.jpg">
         `,
         'bmw': {
           'index.html': 'Some content'

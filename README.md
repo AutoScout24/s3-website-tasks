@@ -55,14 +55,14 @@ AutoScout24 example of the seo auto catalogue:
 
 All tasks return a `Promise` object.
 
-#### `checkForInternalDeadLinks({rootFolder, secondLevelDomain, pathPrefixes})`
+#### `checkForInternalDeadLinks({rootFolder, secondLevelDomain, urlPathPrefixes})`
 
 * **rootFolder** - Folder which will be scanned for html files
 * **secondLevelDomain** - Second level domain of the FQDN (e.g. autoscout24)
 * **thirdLevelDomain** - Third level domain of the FQDN (default: www)
-* **pathPrefixes** - Array of url path prefixes used for the service/website
+* **urlPathPrefixes** - Array of url path prefixes used for the service/website
 
-Scans all html files found in `rootFolder` for internal dead links. Both relative urls and urls containing the `thirdLevelDomain` and `secondLevelDomain` are taken into account. Relative URLs only support paths starting with /. Links are considered internal if their url path start with one of the `servicesPrefixes` array.
+Scans all html files found in `rootFolder` for internal dead links. Both relative urls and urls containing the `thirdLevelDomain` and `secondLevelDomain` are taken into account. Relative URLs only support paths starting with /. Links are considered internal if their url path start with one of the `urlPathPrefixes` array.
 
 The function yields a list `DeadLinksByFile` objects which have the following structure: `{filename, deadLinks}`.
 
@@ -88,13 +88,24 @@ Example csv file format:
 
 `"moto/speling-error","moto/spelling-error"`
 
-#### `createTrailingSlashRedirectDefinitions({fqdn, pathPrefix, rootFolder})`
+#### `createTrailingSlashRedirectDefinitions({fqdn, urlPathPrefixMap, rootFolder})`
 
-* **fqdn** - The fully qualified domain name
-* **pathPrefix** - The url path prefix to use for redirects
-* **rootFolder** - The folder with all html files inside TLD subdirectories
+* **secondLevelDomain** - Second level domain of the FQDN (e.g. autoscout24)
+* **thirdLevelDomain** - Third level domain of the FQDN (default: www)
+* **urlPathPrefixMap** - The url path prefix map to use for redirects
+* **rootFolder** - The folder containing all html files
 
-Creates trailing slash redirect definitions for folder responsible for the TLD of the provided FQDN inside `rootFolder`. The `fqdn` and `pathPrefix` parameters are required in order to construct the correct redirect URL. The respective resulting key is the same as the according folder but without the trailing slash. The definitions can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property.
+Creates trailing slash redirect definitions for all folders inside `rootFolder`. The `thirdLevelDomain`, `secondLevelDomain` and `urlPathPrefixMap` parameters are required in order to construct the correct redirect URL. The respective resulting key is the same as the according folder but without the trailing slash. The definitions can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property.
+
+The `urlPathPrefixMap` must be a list of objects with the following structure: `{key, value}`. The key is the TLD, optionally followed by a slash and lang code (e.g. be/nl). The character `*` can be used as key for a generic path prefix for TLDs/languages. The value is the path prefix to use for URL construction. Example:
+
+```
+[
+  {key: '*', value: 'auto'},
+  {key: 'fr', value: 'voiture'},
+  {key: 'be/fr', value: 'voiture'}
+]
+```
 
 The function yields a list of `RedirectDefinition` objects which have the following structure: `{s3Key, redirectUrl}`.
 

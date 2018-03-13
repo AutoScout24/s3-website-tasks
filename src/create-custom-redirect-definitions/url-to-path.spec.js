@@ -13,7 +13,7 @@ describe('create-custom-redirect-definitions/url-to-path', () => {
     expect(urlToPath(url)).to.match(/^content\//);
   });
 
-  it('should use the top level domain as subfolder after the service prefix', () => {
+  it('should use the top level domain as subfolder after the url path prefix', () => {
     const url = 'www.autoscout24.de/service/path/';
     expect(urlToPath(url)).to.match(/^[^/]+\/de/);
   });
@@ -23,7 +23,7 @@ describe('create-custom-redirect-definitions/url-to-path', () => {
     expect(urlToPath(url)).to.match(/\/path\/$/);
   });
 
-  it('should correctly transform the url given a belgium path prefix', () => {
+  it('should correctly transform the url given a belgium url path prefix', () => {
     const url = 'www.autoscout24.be/fr/service/path/';
     expect(urlToPath(url)).to.equal('content/be/fr/path/');
   });

@@ -14,8 +14,8 @@ const readFileAsync = promisify(fs.readFile);
 const basenameWithoutExtension = filename => path.basename(filename).replace(/\.[^.]*$/, '');
 
 class RedirectMapByDomain {
-  constructor({domain, urlMap}) {
-    Object.assign(this, {domain, urlMap});
+  constructor({fqdn, urlMap}) {
+    Object.assign(this, {fqdn, urlMap});
   }
 }
 
@@ -25,20 +25,22 @@ class RedirectDefinition {
   }
 }
 
-module.exports = (redirectsFolder) => globAsync(redirectsFolder + '/*.csv')
+module.exports = (
+  {thirdLevelDomain = 'www', secondLevelDomain, redirectsFolder}
+) => globAsync(redirectsFolder + '/*.csv')
 .then(csvFilenames => Promise.all(csvFilenames.map(
   csvFilename => readFileAsync(csvFilename).then(
     content => new RedirectMapByDomain({
-      domain: basenameWithoutExtension(csvFilename),
+      fqdn: `${thirdLevelDomain}.${secondLevelDomain}.${basenameWithoutExtension(csvFilename)}`,
       urlMap: parseCsv(content.toString())
     })
   )
 )))
 .then(redirectsByHosts => Promise.all(
   redirectsByHosts.map(
-    ({domain, urlMap}) => urlMap.map(([fromUrl, toUrl]) => new RedirectDefinition({
-      s3Key: urlToPath(`https://${domain}/${fromUrl}`) + 'index.html',
-      redirectUrl: `https://${domain}/${toUrl}`
+    ({fqdn, urlMap}) => urlMap.map(([fromUrl, toUrl]) => new RedirectDefinition({
+      s3Key: urlToPath(`https://${fqdn}/${fromUrl}`) + 'index.html',
+      redirectUrl: `https://${fqdn}/${toUrl}`
     }))
   )
   .reduce((sum, element) => (sum.concat(element)), [])

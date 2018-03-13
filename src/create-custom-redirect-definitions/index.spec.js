@@ -11,9 +11,11 @@ describe('create-custom-redirect-definitions', () => {
 
   it('should return a definition with correct s3 key and redirect url given a single redirect in a single file', () => {
     mockFs({
-      'redirects/www.autoscout24.de.csv': 'service/some-url/,service/some-redirected-url/'
+      'redirects/de.csv': 'service/some-url/,service/some-redirected-url/'
     });
-    return createCustomRedirectDefinitions('redirects')
+    return createCustomRedirectDefinitions({
+      thirdLevelDomain: 'www', secondLevelDomain: 'autoscout24', redirectsFolder: 'redirects'
+    })
     .then(([redirectDefinition]) => {
       expect(redirectDefinition).to.deep.equal({
         s3Key: 'content/de/some-url/index.html',
@@ -24,11 +26,13 @@ describe('create-custom-redirect-definitions', () => {
 
   it('should process all files correctly given multiple redirect files with multiple redirects', () => {
     mockFs({
-      'redirects/www.autoscout24.be.csv': 'fr/service/d/,fr/service/d-redirect/',
-      'redirects/www.autoscout24.de.csv': 'service/a/,service/a-redirect/',
-      'redirects/www.autoscout24.it.csv': 'service/b/,service/b-redirect/\nservice/c/,service/c-redirect/'
+      'redirects/be.csv': 'fr/service/d/,fr/service/d-redirect/',
+      'redirects/de.csv': 'service/a/,service/a-redirect/',
+      'redirects/it.csv': 'service/b/,service/b-redirect/\nservice/c/,service/c-redirect/'
     });
-    return createCustomRedirectDefinitions('redirects')
+    return createCustomRedirectDefinitions({
+      thirdLevelDomain: 'www', secondLevelDomain: 'autoscout24', redirectsFolder: 'redirects'
+    })
     .then(redirectDefinitions => {
       expect(redirectDefinitions).to.have.length(4);
       expect(redirectDefinitions[0]).to.deep.equal({

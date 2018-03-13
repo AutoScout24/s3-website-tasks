@@ -55,7 +55,7 @@ AutoScout24 example of the seo auto catalogue:
 
 All tasks return a `Promise` object.
 
-#### `checkForInternalDeadLinks({rootFolder, secondLevelDomain, urlPathPrefixes})`
+#### `checkForInternalDeadLinks({rootFolder, thirdLevelDomain, secondLevelDomain, urlPathPrefixes})`
 
 * **rootFolder** - Folder which will be scanned for html files
 * **secondLevelDomain** - Second level domain of the FQDN (e.g. autoscout24)
@@ -74,11 +74,11 @@ The function yields a list `DeadLinksByFile` objects which have the following st
 
 Creates a csv string out of a list of `DeadLinksByFile` objects. The output from `checkForInternalDeadLinks()` can be piped into.
 
-#### `createCustomRedirectDefinitions(redirectsFolder)`
+#### `createCustomRedirectDefinitions({thirdLevelDomain, secondLevelDomain, redirectsFolder})`
 
 * **redirectsFolder** - The folder containing redirect csv files for every FQDN
 
-Creates custom redirect definitions which can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property. The `redirectsFolder` is scanned for csv files which must have the FQDN as filename (example: `www.autoscout24.de.csv`). The first column must be the url FROM which should be redirected and the second column the url TO which should be redirected.
+Creates custom redirect definitions which can be used to upload 0 byte objects to S3 for 301 redirects using the `x-amz-website-redirect-location` metadata property. The `redirectsFolder` is scanned for csv files which must have the TLD as filename (example: `de.csv`). The first column must be the url FROM which should be redirected and the second column the url TO which should be redirected.
 
 **Note:** This function assumes HTTPS as protocol.
 
@@ -88,7 +88,7 @@ Example csv file format:
 
 `"moto/speling-error","moto/spelling-error"`
 
-#### `createTrailingSlashRedirectDefinitions({fqdn, urlPathPrefixMap, rootFolder})`
+#### `createTrailingSlashRedirectDefinitions({thirdLevelDomain, secondLevelDomain, urlPathPrefixMap, rootFolder})`
 
 * **secondLevelDomain** - Second level domain of the FQDN (e.g. autoscout24)
 * **thirdLevelDomain** - Third level domain of the FQDN (default: www)

@@ -12,14 +12,14 @@ const htmlAttributeNames = ['href', 'srcset', 'src'];
 const htmlAttributeNamesString = htmlAttributeNames.join('|');
 
 module.exports = (
-  {text, thirdLevelDomain = 'www', secondLevelDomain, pathPrefixes}
+  {text, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes}
 ) => {
 
-  const pathPrefxesString = pathPrefixes.join('|');
+  const urlPathPrefxesString = urlPathPrefixes.join('|');
   const fqdnString = `${thirdLevelDomain}\\.${secondLevelDomain}\\.[^/]+?`;
 
   const urlRegex = new RegExp(
-    `(?:${htmlAttributeNamesString})="((?:https?:\\/\\/${fqdnString})?\\/(?:assets\\/)?(?:${pathPrefxesString})[^"]*?)"`
+    `(?:${htmlAttributeNamesString})="((?:https?:\\/\\/${fqdnString})?\\/(?:assets\\/)?(?:${urlPathPrefxesString})[^"]*?)"`
     , 'gi');
 
   const urls = findAllMatches(text, urlRegex).map(matchResult => matchResult[1]);

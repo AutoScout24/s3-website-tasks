@@ -31,7 +31,7 @@ describe('check-for-internal-dead-links', () => {
     return checkForInternalDeadLinks({
       rootFolder: 'public',
       secondLevelDomain: 'autoscout24',
-      pathPrefixes: ['moto']
+      urlPathPrefixes: ['moto']
     }).then(deadLinksByFiles => {
       expect(deadLinksByFiles.length).to.equal(2);
       expect(deadLinksByFiles[0].filename).to.equal('public/content/de/bmw/index.html');
@@ -58,7 +58,7 @@ describe('check-for-internal-dead-links', () => {
     return checkForInternalDeadLinks({
       rootFolder: 'public',
       secondLevelDomain: 'autoscout24',
-      pathPrefixes: ['moto']
+      urlPathPrefixes: ['moto']
     }).then(deadLinksByFiles => {
       expect(deadLinksByFiles).to.have.length(0);
     });
@@ -79,7 +79,7 @@ describe('check-for-internal-dead-links', () => {
     return checkForInternalDeadLinks({
       rootFolder: 'public',
       secondLevelDomain: 'autoscout24',
-      pathPrefixes: ['moto']
+      urlPathPrefixes: ['moto']
     }).then(deadLinksByFiles => {
       expect(deadLinksByFiles).to.have.length(0);
     });
@@ -96,7 +96,7 @@ describe('check-for-internal-dead-links', () => {
     return checkForInternalDeadLinks({
       rootFolder: 'public',
       secondLevelDomain: 'autoscout24',
-      pathPrefixes: ['moto']
+      urlPathPrefixes: ['moto']
     }).then(deadLinksByFiles => {
       expect(deadLinksByFiles).to.have.length(1);
       expect(deadLinksByFiles[0].deadLinks).to.have.length(2);

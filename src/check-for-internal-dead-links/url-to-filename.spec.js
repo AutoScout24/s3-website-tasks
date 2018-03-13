@@ -20,7 +20,7 @@ describe('check-internal-dead-links/url-to-filename', () => {
       expect(urlToFilename(url)).to.match(/^content\//);
     });
 
-    it('should use the top level domain as subfolder after the service prefix', () => {
+    it('should use the top level domain as subfolder after the url path prefix', () => {
       const url = 'www.autoscout24.de/service/path/';
       expect(urlToFilename(url)).to.match(/^[^/]+\/de/);
     });

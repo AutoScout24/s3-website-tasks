@@ -12,7 +12,7 @@ class RedirectDefinition {
 }
 
 module.exports = ({
-  thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixMap, rootFolder
+  rootFolder, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixMap = []
 }) => globAsync(`${rootFolder}/content/*/**/*/`)
 .then(directories => directories.map(directory => directory.replace(`${rootFolder}/`, '')))
 .then(directories => directories.map(directory => new RedirectDefinition({

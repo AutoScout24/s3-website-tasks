@@ -8,7 +8,7 @@ const UrlsByFile = require('./value-objects/urls-by-file');
 const DeadLinksByFile = require('./value-objects/dead-links-by-file');
 
 const findInternalUrls = require('./find-internal-urls');
-const urlToFilename = require('./url-to-filename');
+const urlToFilename = require('../url-to-filename');
 
 const globAsync = promisify(glob);
 const readFileAsync = promisify(fs.readFile);
@@ -39,7 +39,9 @@ module.exports = (
       let deadLinks = [];
       return Promise.all(
         urlsByFile.urls.map(
-          url => statAsync(`${rootFolder}/${urlToFilename(url)}`).catch(() => deadLinks.push(url))
+          url => statAsync(
+            `${rootFolder}/${urlToFilename({url, urlPathPrefixes})}`
+          ).catch(() => deadLinks.push(url))
         )
       )
       .then(() => new DeadLinksByFile(urlsByFile.filename, deadLinks));

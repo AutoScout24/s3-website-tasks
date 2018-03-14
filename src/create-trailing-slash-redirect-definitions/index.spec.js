@@ -13,20 +13,37 @@ describe('create-trailing-slash-redirect-definitions', () => {
     mockFs.restore();
   });
 
-  it('should return a correct redirect definition given one directory and a generic path prefix', () => {
+  it('should return a correct redirect definition given one directory and a generic url path prefix', () => {
     mockFs({
       'public/content/de/some-folder': {}
     });
     return createTrailingSlashRedirectDefinitions({
       thirdLevelDomain: 'www',
       secondLevelDomain: 'autoscout24',
-      urlPathPrefixMap: [{key: '*', value: 'service'}],
+      urlPathPrefixMap: [{key: '*', value: 'website'}],
       rootFolder: 'public'
     })
     .then(([redirectDefinition]) => {
       expect(redirectDefinition).to.deep.equal({
         s3Key: 'content/de/some-folder',
-        redirectUrl: 'https://www.autoscout24.de/service/some-folder/'
+        redirectUrl: 'https://www.autoscout24.de/website/some-folder/'
+      });
+    });
+  });
+
+  it('should return a correct redirect definition given one directory and no matching url path prefix', () => {
+    mockFs({
+      'public/content/de/some-folder': {}
+    });
+    return createTrailingSlashRedirectDefinitions({
+      thirdLevelDomain: 'www',
+      secondLevelDomain: 'autoscout24',
+      rootFolder: 'public'
+    })
+    .then(([redirectDefinition]) => {
+      expect(redirectDefinition).to.deep.equal({
+        s3Key: 'content/de/some-folder',
+        redirectUrl: 'https://www.autoscout24.de/some-folder/'
       });
     });
   });

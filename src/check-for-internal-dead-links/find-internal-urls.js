@@ -8,19 +8,17 @@ const findAllMatches = (text, regex) => {
   return matchResults;
 };
 
-const htmlAttributeNames = ['href', 'srcset', 'src'];
-const htmlAttributeNamesString = htmlAttributeNames.join('|');
+const attributeNames = ['href', 'srcset', 'src'];
+const attributeNamesString = attributeNames.join('|');
 
 module.exports = (
   {text, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes}
 ) => {
-
-  const urlPathPrefxesString = urlPathPrefixes.join('|');
   const fqdnString = `${thirdLevelDomain}\\.${secondLevelDomain}\\.[^/]+?`;
-
+  const urlPathPrefxesGroup = urlPathPrefixes ? `(?:${urlPathPrefixes.join('|')})` : '';
   const urlRegex = new RegExp(
-    `(?:${htmlAttributeNamesString})="((?:https?:\\/\\/${fqdnString})?\\/(?:assets\\/)?(?:${urlPathPrefxesString})[^"]*?)"`
-    , 'gi');
+    `(?:${attributeNamesString})="((?:https?:\\/\\/${fqdnString})?\\/(?:assets\\/)?${urlPathPrefxesGroup}[^"]*?)"`, 'gi'
+  );
 
   const urls = findAllMatches(text, urlRegex).map(matchResult => matchResult[1]);
   const urlsWithoutWebp = urls.filter(url => (url.indexOf('.webp') == -1));

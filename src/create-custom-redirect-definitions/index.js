@@ -4,7 +4,7 @@ const path = require('path');
 const glob = require('glob');
 const promisify = require('util.promisify');
 
-const urlToPath = require('./url-to-path');
+const urlToFilename = require('../url-to-filename');
 
 const parseCsv = require('./parse-csv');
 
@@ -26,7 +26,7 @@ class RedirectDefinition {
 }
 
 module.exports = (
-  {thirdLevelDomain = 'www', secondLevelDomain, redirectsFolder}
+  {redirectsFolder, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes = []}
 ) => globAsync(redirectsFolder + '/*.csv')
 .then(csvFilenames => Promise.all(csvFilenames.map(
   csvFilename => readFileAsync(csvFilename).then(
@@ -39,7 +39,7 @@ module.exports = (
 .then(redirectsByHosts => Promise.all(
   redirectsByHosts.map(
     ({fqdn, urlMap}) => urlMap.map(([fromUrl, toUrl]) => new RedirectDefinition({
-      s3Key: urlToPath(`https://${fqdn}/${fromUrl}`) + 'index.html',
+      s3Key: urlToFilename({url: `https://${fqdn}/${fromUrl}`, urlPathPrefixes}),
       redirectUrl: `https://${fqdn}/${toUrl}`
     }))
   )

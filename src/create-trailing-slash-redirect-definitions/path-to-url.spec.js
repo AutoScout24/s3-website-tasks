@@ -4,7 +4,7 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
   const pathToUrl = require('./path-to-url');
 
   it('should prepend the https protocol', () => {
-    const path = 'content/de/subfolder/index.html';
+    const path = 'content/de/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www',
@@ -16,7 +16,7 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
   });
 
   it('should use the provided third level domain', () => {
-    const path = 'content/de/subfolder/index.html';
+    const path = 'content/de/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www2',
@@ -28,7 +28,7 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
   });
 
   it('should use the provided second level domain', () => {
-    const path = 'content/de/subfolder/index.html';
+    const path = 'content/de/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www',
@@ -40,7 +40,7 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
   });
 
   it('should use the detected top level domain from the content subfolder', () => {
-    const path = 'content/de/subfolder/index.html';
+    const path = 'content/de/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www',
@@ -52,7 +52,7 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
   });
 
   it('should append the content specific path as url path', () => {
-    const path = 'content/de/subfolder/index.html';
+    const path = 'content/de/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www',
@@ -60,11 +60,11 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
         urlPathPrefixMap: [{key: '*', value: 'prefix'}],
         path
       })
-    ).to.match(/subfolder\/index\.html$/);
+    ).to.match(/subfolder\/$/);
   });
 
   it('should prepend the detected language from the folder as url path', () => {
-    const path = 'content/be/fr/subfolder/index.html';
+    const path = 'content/be/fr/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www',
@@ -72,11 +72,11 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
         urlPathPrefixMap: [{key: '*', value: 'prefix'}],
         path
       })
-    ).to.match(/fr\/[^/]+\/subfolder\/index\.html$/);
+    ).to.match(/fr\/[^/]+\/subfolder\/$/);
   });
 
   it('should use the correct url path prefix given a tld specific one', () => {
-    const path = 'content/de/subfolder/index.html';
+    const path = 'content/de/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www',
@@ -88,7 +88,7 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
   });
 
   it('should use the correct url path prefix given a language specific one', () => {
-    const path = 'content/be/fr/subfolder/index.html';
+    const path = 'content/be/fr/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www',
@@ -100,7 +100,7 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
   });
 
   it('should use the correct url path prefix given a generic one', () => {
-    const path = 'content/it/subfolder/index.html';
+    const path = 'content/it/subfolder/';
     expect(
       pathToUrl({
         thirdLevelDomain: 'www',
@@ -111,16 +111,16 @@ describe('create-trailing-slash-redirect-definitions/path-to-url', () => {
     ).to.match(/\.it\/prefix\//);
   });
 
-  it('should use the correct url path prefix given a generic one', () => {
-    const path = 'content/it/subfolder/index.html';
-    expect(() => {
+  it('should use no url path prefix given none is matching', () => {
+    const path = 'content/it/subfolder/';
+    expect(
       pathToUrl({
         thirdLevelDomain: 'www',
         secondLevelDomain: 'autoscout24',
         urlPathPrefixMap: [{key: 'de', value: 'prefix'}],
         path
-      });
-    }).to.throw('no suitable url path prefix found');
+      })
+    ).to.equal('https://www.autoscout24.it/subfolder/');
   });
 
 });

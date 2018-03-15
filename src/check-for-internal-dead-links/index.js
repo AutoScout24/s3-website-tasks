@@ -15,8 +15,8 @@ const readFileAsync = promisify(fs.readFile);
 const statAsync = promisify(fs.stat);
 
 module.exports = (
-  {rootFolder, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes}
-) => globAsync(`${rootFolder}/content/**/*.html`)
+  {rootDirectory, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes}
+) => globAsync(`${rootDirectory}/content/**/*.html`)
 .then(filenames => Promise.all(
   filenames.map(
     filename => readFileAsync(filename).then(
@@ -40,7 +40,7 @@ module.exports = (
       return Promise.all(
         urlsByFile.urls.map(
           url => statAsync(
-            `${rootFolder}/${urlToFilename({url, urlPathPrefixes})}`
+            `${rootDirectory}/${urlToFilename({url, urlPathPrefixes})}`
           ).catch(() => deadLinks.push(url))
         )
       )

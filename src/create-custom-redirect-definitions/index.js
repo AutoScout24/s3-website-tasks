@@ -26,8 +26,8 @@ class RedirectDefinition {
 }
 
 module.exports = (
-  {redirectsFolder, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes = []}
-) => globAsync(redirectsFolder + '/*.csv')
+  {redirectsDirectory, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes = []}
+) => globAsync(redirectsDirectory + '/*.csv')
 .then(csvFilenames => Promise.all(csvFilenames.map(
   csvFilename => readFileAsync(csvFilename).then(
     content => new RedirectMapByDomain({

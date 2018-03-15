@@ -15,9 +15,9 @@ describe('minify-images', () => {
 
   execSync('rm -rf .tmp');
 
-  const setupSandboxDirectory = (rootFolder) => {
-    execSync(`rm -rf ${rootFolder}`);
-    execSync(`mkdir -p ${rootFolder}`);
+  const setupSandboxDirectory = (rootDirectory) => {
+    execSync(`rm -rf ${rootDirectory}`);
+    execSync(`mkdir -p ${rootDirectory}`);
   };
 
   it('should create a webp for a jpeg given it can be optimized', () => {
@@ -70,13 +70,13 @@ describe('minify-images', () => {
   });
 
 
-  it('should correctly process files within subfolders', () => {
+  it('should correctly process files within subdirectories', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
     return minifyImages({
       srcPath: './src/minify-images/test-images', destPath, imageminPlugins: [imageminWebp, imageminMozjpeg]
     })
-    .then(() => statAsync(`${destPath}/subfolder/subfolder-test.jpg`))
+    .then(() => statAsync(`${destPath}/subdirectory/subdirectory-test.jpg`))
     .then(stat => expect(stat.size).to.be.greaterThan(0));
   });
 
@@ -91,7 +91,7 @@ describe('minify-images', () => {
     .then(() => {
       expect(reportingCallback).to.have.been.calledWith('executing imagemin plugin no. 1');
       expect(reportingCallback).to.have.been.calledWith('processing ./src/minify-images/test-images/');
-      expect(reportingCallback).to.have.been.calledWith('processing ./src/minify-images/test-images/subfolder/');
+      expect(reportingCallback).to.have.been.calledWith('processing ./src/minify-images/test-images/subdirectory/');
     });
   });
 

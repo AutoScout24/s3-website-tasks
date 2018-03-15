@@ -15,7 +15,7 @@ describe('create-custom-redirect-definitions', () => {
         'redirects/de.csv': 'website/some-url/,website/some-redirected-url/'
       });
       return createCustomRedirectDefinitions({
-        redirectsFolder: 'redirects',
+        redirectsDirectory: 'redirects',
         thirdLevelDomain: 'www',
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['website']
@@ -35,7 +35,7 @@ describe('create-custom-redirect-definitions', () => {
         'redirects/it.csv': 'website/b/,website/b-redirect/\nwebsite/c/,website/c-redirect/'
       });
       return createCustomRedirectDefinitions({
-        redirectsFolder: 'redirects',
+        redirectsDirectory: 'redirects',
         thirdLevelDomain: 'www',
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['website']
@@ -69,7 +69,7 @@ describe('create-custom-redirect-definitions', () => {
         'redirects/de.csv': 'path/some-url/,path/some-redirected-url/'
       });
       return createCustomRedirectDefinitions({
-        redirectsFolder: 'redirects',
+        redirectsDirectory: 'redirects',
         thirdLevelDomain: 'www',
         secondLevelDomain: 'autoscout24'
       })
@@ -88,7 +88,7 @@ describe('create-custom-redirect-definitions', () => {
         'redirects/it.csv': 'path/b/,path/b-redirect/\npath/c/,path/c-redirect/'
       });
       return createCustomRedirectDefinitions({
-        redirectsFolder: 'redirects',
+        redirectsDirectory: 'redirects',
         thirdLevelDomain: 'www',
         secondLevelDomain: 'autoscout24'
       })

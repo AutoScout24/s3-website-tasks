@@ -12,9 +12,9 @@ class RedirectDefinition {
 }
 
 module.exports = ({
-  rootFolder, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixMap = []
-}) => globAsync(`${rootFolder}/content/*/**/*/`)
-.then(directories => directories.map(directory => directory.replace(`${rootFolder}/`, '')))
+  rootDirectory, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixMap = []
+}) => globAsync(`${rootDirectory}/content/*/**/*/`)
+.then(directories => directories.map(directory => directory.replace(`${rootDirectory}/`, '')))
 .then(directories => directories.map(directory => new RedirectDefinition({
   s3Key: directory.replace(/\/$/, ''),
   redirectUrl: pathToUrl({thirdLevelDomain, secondLevelDomain, urlPathPrefixMap, path: directory})

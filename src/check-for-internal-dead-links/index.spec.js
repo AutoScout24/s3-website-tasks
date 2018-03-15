@@ -31,7 +31,7 @@ describe('check-for-internal-dead-links', () => {
         }
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['moto']
       }).then(deadLinksByFiles => {
@@ -65,7 +65,7 @@ describe('check-for-internal-dead-links', () => {
         }
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['moto']
       }).then(deadLinksByFiles => {
@@ -87,7 +87,7 @@ describe('check-for-internal-dead-links', () => {
         }
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['moto']
       }).then(deadLinksByFiles => {
@@ -112,7 +112,7 @@ describe('check-for-internal-dead-links', () => {
         }
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['moto']
       }).then(deadLinksByFiles => {
@@ -129,7 +129,7 @@ describe('check-for-internal-dead-links', () => {
         'public/content/it/bmw/index.html': 'Some content'
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['moto']
       }).then(deadLinksByFiles => {
@@ -162,7 +162,7 @@ describe('check-for-internal-dead-links', () => {
         }
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24'
       }).then(deadLinksByFiles => {
         expect(deadLinksByFiles.length).to.equal(2);
@@ -195,7 +195,7 @@ describe('check-for-internal-dead-links', () => {
         }
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24'
       }).then(deadLinksByFiles => {
         expect(deadLinksByFiles.length).to.equal(1);
@@ -216,7 +216,7 @@ describe('check-for-internal-dead-links', () => {
         }
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24'
       }).then(deadLinksByFiles => {
         expect(deadLinksByFiles).to.have.length(0);
@@ -240,7 +240,7 @@ describe('check-for-internal-dead-links', () => {
         }
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24'
       }).then(deadLinksByFiles => {
         expect(deadLinksByFiles).to.have.length(0);
@@ -256,7 +256,7 @@ describe('check-for-internal-dead-links', () => {
         'public/content/it/bmw/index.html': 'Some content'
       });
       return checkForInternalDeadLinks({
-        rootFolder: 'public',
+        rootDirectory: 'public',
         secondLevelDomain: 'autoscout24'
       }).then(deadLinksByFiles => {
         expect(deadLinksByFiles).to.have.length(1);

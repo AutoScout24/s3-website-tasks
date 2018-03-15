@@ -11,23 +11,23 @@ describe('url-to-filename', () => {
   describe('given an assets url', () => {
 
     it('should use "assets" as first file path component', () => {
-      const url = 'www.autoscout24.de/assets/service/folder/subfolder/file.jpg';
+      const url = 'www.autoscout24.de/assets/service/directory/subdirectory/file.jpg';
       expect(urlToFilename({url})).to.match(/^assets\//);
     });
 
     it('should append the url path without the url path prefix as file path given one matching url path prefix', () => {
-      const url = 'www.autoscout24.de/assets/website/folder/subfolder/file.jpg';
-      expect(urlToFilename({url, urlPathPrefixes: ['website']})).to.match(/^[^/]+\/folder\/subfolder\/file\.jpg/);
+      const url = 'www.autoscout24.de/assets/website/directory/subdirectory/file.jpg';
+      expect(urlToFilename({url, urlPathPrefixes: ['website']})).to.match(/^[^/]+\/directory\/subdirectory\/file\.jpg/);
     });
 
     it('should append the complete url path as file path given one not matching url path prefix', () => {
-      const url = 'www.autoscout24.de/assets/folder/subfolder/file.jpg';
-      expect(urlToFilename({url, urlPathPrefixes: ['website']})).to.match(/^[^/]+\/folder\/subfolder\/file\.jpg/);
+      const url = 'www.autoscout24.de/assets/directory/subdirectory/file.jpg';
+      expect(urlToFilename({url, urlPathPrefixes: ['website']})).to.match(/^[^/]+\/directory\/subdirectory\/file\.jpg/);
     });
 
     it('should append the complete url path as file path given no url path prefixes', () => {
-      const url = 'www.autoscout24.de/assets/folder/subfolder/file.jpg';
-      expect(urlToFilename({url})).to.match(/^[^/]+\/folder\/subfolder\/file\.jpg/);
+      const url = 'www.autoscout24.de/assets/directory/subdirectory/file.jpg';
+      expect(urlToFilename({url})).to.match(/^[^/]+\/directory\/subdirectory\/file\.jpg/);
     });
 
   });
@@ -50,13 +50,13 @@ describe('url-to-filename', () => {
     });
 
     it('should append the complete url path as file path given one not matching url path prefix', () => {
-      const url = 'www.autoscout24.de/folder/subfolder/';
-      expect(urlToFilename({url, urlPathPrefixes: ['website']})).to.match(/^[^/]+\/[^/]+\/folder\/subfolder\//);
+      const url = 'www.autoscout24.de/directory/subdirectory/';
+      expect(urlToFilename({url, urlPathPrefixes: ['website']})).to.match(/^[^/]+\/[^/]+\/directory\/subdirectory\//);
     });
 
     it('should append the complete url path as file path given no url path prefixes', () => {
-      const url = 'www.autoscout24.de/folder/subfolder/';
-      expect(urlToFilename({url})).to.match(/^[^/]+\/[^/]+\/folder\/subfolder\//);
+      const url = 'www.autoscout24.de/directory/subdirectory/';
+      expect(urlToFilename({url})).to.match(/^[^/]+\/[^/]+\/directory\/subdirectory\//);
     });
 
     it('should append the index.html at the end', () => {

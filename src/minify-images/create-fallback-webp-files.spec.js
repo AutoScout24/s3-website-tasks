@@ -48,12 +48,12 @@ describe('create-fallback-webp-files', () => {
     delete require.cache[require.resolve('./create-fallback-webp-files')];
     let createFallbackWebpFiles = require('./create-fallback-webp-files');
     mockFs({
-      'public/nested/folder/test.jpg': 'jpeg content'
+      'public/nested/directory/test.jpg': 'jpeg content'
     });
     return createFallbackWebpFiles('public')
     .then(() => {
       expect(fs.copyFile).to.have.been.calledWith(
-        'public/nested/folder/test.jpg', 'public/nested/folder/test.webp');
+        'public/nested/directory/test.jpg', 'public/nested/directory/test.webp');
     });
   });
 

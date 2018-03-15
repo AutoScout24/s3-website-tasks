@@ -19,9 +19,9 @@ const executeInSequence = (list, asyncOperation) => list.reduce(
 const createFallbackWebpFiles = require('./create-fallback-webp-files');
 
 module.exports = ({
-  srcPath, destPath, quality = 70, imageminPlugins, reportingCallback = () => {}
+  srcPath, subdirectories, destPath, quality = 70, imageminPlugins, reportingCallback = () => {}
 }) => rimrafAsync(destPath)
-.then(() => globAsync(srcPath + '/**/*/'))
+.then(() => subdirectories || globAsync(srcPath + '/**/*/'))
 .then(subdirectories => subdirectories.concat([srcPath]))
 .then(subdirectories => executeInSequence(imageminPlugins, (imageminPlugin, index) => {
   reportingCallback('executing imagemin plugin no. ' + (index + 1));

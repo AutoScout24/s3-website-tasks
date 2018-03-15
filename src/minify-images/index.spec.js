@@ -69,7 +69,6 @@ describe('minify-images', () => {
     });
   });
 
-
   it('should correctly process files within subdirectories', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
@@ -78,6 +77,22 @@ describe('minify-images', () => {
     })
     .then(() => statAsync(`${destPath}/subdirectory/subdirectory-test.jpg`))
     .then(stat => expect(stat.size).to.be.greaterThan(0));
+  });
+
+  it('should only process specific subdirectories given a list of subdirectories', () => {
+    const glob = require('glob');
+    const destPath = '.tmp/' + Math.random().toString();
+    setupSandboxDirectory(destPath);
+    return minifyImages({
+      srcPath: './src/minify-images/test-images',
+      subdirectories: glob.sync('./src/minify-images/test-images/subdirectory/'),
+      destPath,
+      imageminPlugins: [imageminWebp, imageminMozjpeg]
+    })
+    .then(() => {
+      expect(fs.statSync((`${destPath}/subdirectory/subdirectory-test.jpg`)).size).to.be.greaterThan(0);
+      expect(() => fs.statSync((`${destPath}/excluded-subdirectory/subdirectory-test.jpg`))).to.throw(/ENOENT/);
+    });
   });
 
   it('should call the provided reporting callback with descriptive information', () => {

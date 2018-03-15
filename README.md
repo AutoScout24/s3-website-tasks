@@ -138,11 +138,10 @@ This is a simplified Node.js version of [Stacker.create_or_update_stack](https:/
 #### `minifyImages({srcDirectory, destDirectory, quality = 70, imageminPlugins, reportingCallback})`
 
 * **srcDirectory** - The directory which is scanned for jpeg files
+* **subdirectories** - Optional list of subdirectories to process
 * **destDirectory** - The directory which the opzimized files are written to
 * **quality** - The quality which is passed to imagemin
 * **imageminPlugins** - Array of imagemin plugins to be executed
 * **reportingCallback** - Function which is called with progress information
 
-Creates a mozjpeg optimized version and a webp file in `destDirectory` for every jpeg file found inside `srcDirectory`.
-
-**Note:** The imagemin plugin modules are currently passed in from the outside because they take quite long to install. This is done to reduce the installation duration of this module.
+Executes all given imagemin plugins for all images within `srcDirectory` and outputs the resulting files into `destDirectory`. If a list of `subdirectories` is provided only these are processed. **Note:** Provided subdirectories must be absolute paths. Since imagemin is not capable of preserving the directory tree for nested directories this task processes every subdirectory individually. Further it is assumed that imagemin-webp is used with this task. Whenever the webp compiler does not create a file due to being unable to optimize this task creates a jpeg duplicates as webp fallbacks.

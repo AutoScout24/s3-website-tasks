@@ -1,11 +1,9 @@
 const glob = require('glob');
 const promisify = require('util.promisify');
-const rimraf = require('rimraf');
 
 const imagemin = require('imagemin');
 
 const globAsync = promisify(glob);
-const rimrafAsync = promisify(rimraf);
 
 const executeImagemin = (inputDirectory, outputDirectory, plugins) => imagemin(
   [`${inputDirectory}/*.jpg`], outputDirectory, {plugins}
@@ -16,10 +14,12 @@ const executeInSequence = (list, asyncOperation) => list.reduce(
   Promise.resolve()
 );
 
+const getAllSubdirectories = srcPath => globAsync(srcPath + '/**/*/')
+.then(subdirectories => subdirectories.concat([srcPath]));
+
 module.exports = ({
   srcPath, subdirectories, destPath, quality = 70, imageminPlugins, reportingCallback = () => {}
-}) => rimrafAsync(destPath)
-.then(() => subdirectories || globAsync(srcPath + '/**/*/').then(subdirectories => subdirectories.concat([srcPath])))
+}) => Promise.resolve(subdirectories || getAllSubdirectories(srcPath))
 .then(subdirectories => executeInSequence(imageminPlugins, (imageminPlugin, index) => {
   reportingCallback('executing imagemin plugin no. ' + (index + 1));
   return executeInSequence(

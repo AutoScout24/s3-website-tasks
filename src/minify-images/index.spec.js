@@ -86,6 +86,7 @@ describe('minify-images', () => {
     .then(() => {
       expect(fs.statSync((`${destPath}/subdirectory/subdirectory-test.jpg`)).size).to.be.greaterThan(0);
       expect(() => fs.statSync((`${destPath}/excluded-subdirectory/subdirectory-test.jpg`))).to.throw(/ENOENT/);
+      expect(() => fs.statSync((`${destPath}/test.jpg`))).to.throw(/ENOENT/);
     });
   });
 

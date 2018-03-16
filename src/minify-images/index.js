@@ -19,8 +19,7 @@ const executeInSequence = (list, asyncOperation) => list.reduce(
 module.exports = ({
   srcPath, subdirectories, destPath, quality = 70, imageminPlugins, reportingCallback = () => {}
 }) => rimrafAsync(destPath)
-.then(() => subdirectories || globAsync(srcPath + '/**/*/'))
-.then(subdirectories => subdirectories.concat([srcPath]))
+.then(() => subdirectories || globAsync(srcPath + '/**/*/').then(subdirectories => subdirectories.concat([srcPath])))
 .then(subdirectories => executeInSequence(imageminPlugins, (imageminPlugin, index) => {
   reportingCallback('executing imagemin plugin no. ' + (index + 1));
   return executeInSequence(

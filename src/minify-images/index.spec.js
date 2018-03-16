@@ -37,20 +37,14 @@ describe('minify-images', () => {
     });
   });
 
-  it('should create a fallback webp for a jpeg given it cannot be optimized', () => {
+  it('should not create a webp for a jpeg given it cannot be optimized', () => {
     const destPath = '.tmp/' + Math.random().toString();
     setupSandboxDirectory(destPath);
     return minifyImages({
       srcPath: './src/minify-images/test-images', destPath, imageminPlugins: [imageminWebp, imageminMozjpeg]
     })
-    .then(() => Promise.all([
-      readFileAsync(`${destPath}/test-without-webp.jpg`),
-      readFileAsync(`${destPath}/test-without-webp.webp`)
-    ]))
-    .then(([jpegBuffer, webpBuffer]) => {
-      const jpegContent = jpegBuffer.toString();
-      const webpContent = webpBuffer.toString();
-      expect(jpegContent).to.equal(webpContent);
+    .then(() => {
+      expect(() => fs.statSync((`${destPath}/test-without-webp.webp`))).to.throw(/ENOENT/);
     });
   });
 

@@ -16,8 +16,6 @@ const executeInSequence = (list, asyncOperation) => list.reduce(
   Promise.resolve()
 );
 
-const createFallbackWebpFiles = require('./create-fallback-webp-files');
-
 module.exports = ({
   srcPath, subdirectories, destPath, quality = 70, imageminPlugins, reportingCallback = () => {}
 }) => rimrafAsync(destPath)
@@ -34,5 +32,4 @@ module.exports = ({
       );
     }
   );
-}))
-.then(createFallbackWebpFiles.bind(null, destPath));
+}));

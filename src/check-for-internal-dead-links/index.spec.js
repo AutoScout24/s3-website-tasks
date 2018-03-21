@@ -266,4 +266,25 @@ describe('check-for-internal-dead-links', () => {
 
   });
 
+  it('should correctly process all files given a custom files chunk size smaller than the file count', () => {
+    mockFs({
+      'public/content/de': {
+        'bmw': {
+          'index.html': '<a href="https://www.autoscout24.de/moto/dead-link-1/">'
+        },
+        'ktm': {
+          'index.html': '<a href="https://www.autoscout24.de/moto/dead-link-2/">'
+        }
+      }
+    });
+    return checkForInternalDeadLinks({
+      rootDirectory: 'public',
+      secondLevelDomain: 'autoscout24',
+      urlPathPrefixes: ['moto'],
+      filesChunkSize: 1
+    }).then(deadLinksByFiles => {
+      expect(deadLinksByFiles.length).to.equal(2);
+    });
+  });
+
 });

@@ -73,6 +73,7 @@ All tasks return a `Promise` object.
 * **thirdLevelDomain** - Third level domain of the FQDN (default: www)
 * **secondLevelDomain** - Second level domain of the FQDN (e.g. autoscout24)
 * **urlPathPrefixes** - Optional array of URL path prefixes (both content and assets, default: \[\])
+* **filesChunkSize** - Optional chunk size for files to be processed concurrently (default: 1000)
 
 Scans all html files found in `rootDirectory` for internal dead links. Both relative and absolute urls are taking into account.  **Relative URLs are only supported for paths starting with /**. Links are internal if at least their `thirdLevelDomain` and `secondLevelDomain` match the provided arguments. Additionally, if `urlPathPrefixes` are provided a link URL path needs to start with one of them to count as internal.
 
@@ -144,4 +145,4 @@ This is a simplified Node.js version of [Stacker.create_or_update_stack](https:/
 * **imageminPlugins** - Array of imagemin plugins to be executed
 * **reportingCallback** - Function which is called with progress information
 
-Executes all given imagemin plugins for all images within `srcDirectory` and outputs the resulting files into `destDirectory`. Since imagemin is not capable of preserving the directory tree for nested directories this task processes every subdirectory individually. If a list of `subdirectories` is provided only these are processed. **Note:** The provided subdirectories must be absolute paths. 
+Executes all given imagemin plugins for all images within `srcDirectory` and outputs the resulting files into `destDirectory`. Since imagemin is not capable of preserving the directory tree for nested directories this task processes every subdirectory individually. If a list of `subdirectories` is provided only these are processed. **Note:** The provided subdirectories must be absolute paths.

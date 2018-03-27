@@ -227,4 +227,27 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
     });
   });
 
+  describe('given the url starts with a language prefix followed by a valid url path prefix', () => {
+
+    it('should include it given it is an absolute url', () => {
+      const url = 'https://www.autoscout24.be/nl/my-service-1/foobar/';
+      const internalUrls = findInternalUrls({
+        text: `<a href="${url}">`,
+        secondLevelDomain: 'autoscout24',
+        urlPathPrefixes: ['my-service-1']
+      });
+      expect(internalUrls).to.include(url);
+    });
+
+    it('should include it given it is a relative url', () => {
+      const url = '/fr/my-service-1/foobar/';
+      const internalUrls = findInternalUrls({
+        text: `<a href="${url}">`,
+        secondLevelDomain: 'autoscout24',
+        urlPathPrefixes: ['my-service-1']
+      });
+      expect(internalUrls).to.include(url);
+    });
+  });
+
 });

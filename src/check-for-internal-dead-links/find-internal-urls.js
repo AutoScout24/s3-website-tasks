@@ -14,10 +14,12 @@ const attributeNamesString = attributeNames.join('|');
 module.exports = (
   {text, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes}
 ) => {
-  const fqdnString = `${thirdLevelDomain}\\.${secondLevelDomain}\\.[^/]+?`;
-  const urlPathPrefxesGroup = urlPathPrefixes ? `(?:${urlPathPrefixes.join('|')})` : '';
+  const protocol = 'https?:\\/\\/';
+  const fqdn = `${thirdLevelDomain}\\.${secondLevelDomain}\\.[^/]+?`;
+  const urlPathPrefxes = urlPathPrefixes ? `(?:${urlPathPrefixes.join('|')})` : '';
+  const assetsAndLanguagePrefixes = '(?:(?:assets|fr|nl)\\/)?';
   const urlRegex = new RegExp(
-    `(?:${attributeNamesString})="((?:https?:\\/\\/${fqdnString})?\\/(?:assets\\/)?${urlPathPrefxesGroup}[^"]*?)"`, 'gi'
+    `(?:${attributeNamesString})="((?:${protocol}${fqdn})?\\/${assetsAndLanguagePrefixes}${urlPathPrefxes}[^"]*?)"`, 'gi'
   );
 
   const urls = findAllMatches(text, urlRegex).map(matchResult => matchResult[1]);

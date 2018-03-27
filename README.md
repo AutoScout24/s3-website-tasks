@@ -6,10 +6,6 @@
 
 Node.js build tasks for a multilingual website hosted in S3.
 
-## TODOs
-
-* Dead link checker: Add support for belgium
-
 ## Project requirements
 
 The tasks require the consuming website project to have the following setup:

@@ -1,5 +1,5 @@
 module.exports = ({url, urlPathPrefixes = []}) => {
-  const urlWithoutProtocol = url.replace(/https?:\/\//, '');
+  let urlWithoutProtocol = url.replace(/https?:\/\//, '');
   const isAssetsUrl = /^[^/]+\/assets\//.test(urlWithoutProtocol);
   const urlPathPrefixesGroup = `(?:(?:${urlPathPrefixes.join('|')})\\/)?`;
   if (isAssetsUrl) {
@@ -8,7 +8,8 @@ module.exports = ({url, urlPathPrefixes = []}) => {
   }
   else {
     const belgiumPathPrefix = '(nl\\/|fr\\/)?';
-    const contentUrlRegex = new RegExp(`^[^.]+\\.[^.]+\\.([^/]+)\\/${belgiumPathPrefix}${urlPathPrefixesGroup}(.*)$`);
+    let contentUrlRegex = new RegExp(`^[^.]+\\.[^.]+\\.([^/]+)\\/${belgiumPathPrefix}${urlPathPrefixesGroup}(.*)$`);
+    urlWithoutProtocol = (/\/$/.test(urlWithoutProtocol)) ? urlWithoutProtocol : `${urlWithoutProtocol}/`;
     return urlWithoutProtocol.replace(contentUrlRegex, 'content/$1/$2$3index.html');
   }
 };

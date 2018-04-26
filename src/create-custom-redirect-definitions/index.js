@@ -38,10 +38,15 @@ module.exports = (
 )))
 .then(redirectsByHosts => Promise.all(
   redirectsByHosts.map(
-    ({fqdn, urlMap}) => urlMap.map(([fromUrl, toUrl]) => new RedirectDefinition({
+    ({fqdn, urlMap}) => urlMap.map(([fromUrl, toUrl]) => [new RedirectDefinition({
       s3Key: urlToFilename({url: `https://${fqdn}/${fromUrl}`, urlPathPrefixes}),
       redirectUrl: `https://${fqdn}/${toUrl}`
-    }))
+    }),
+    new RedirectDefinition({
+      s3Key: urlToFilename({url: `https://${fqdn}/${fromUrl}`, urlPathPrefixes}).replace(/\/index\.html$/, ''),
+      redirectUrl: `https://${fqdn}/${toUrl}`
+    })
+    ]).reduce((sum, element) => (sum.concat(element)), [])
   )
   .reduce((sum, element) => (sum.concat(element)), [])
 ));

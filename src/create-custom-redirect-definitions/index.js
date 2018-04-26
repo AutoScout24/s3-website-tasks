@@ -40,11 +40,11 @@ module.exports = (
   redirectsByHosts.map(
     ({fqdn, urlMap}) => urlMap.map(([fromUrl, toUrl]) => [new RedirectDefinition({
       s3Key: urlToFilename({url: `https://${fqdn}/${fromUrl}`, urlPathPrefixes}),
-      redirectUrl: `https://${fqdn}/${toUrl}`
+      redirectUrl: `https://${fqdn}/${toUrl.replace(/\r$/, '')}`
     }),
     new RedirectDefinition({
       s3Key: urlToFilename({url: `https://${fqdn}/${fromUrl}`, urlPathPrefixes}).replace(/\/index\.html$/, ''),
-      redirectUrl: `https://${fqdn}/${toUrl}`
+      redirectUrl: `https://${fqdn}/${toUrl.replace(/\r$/, '')}`
     })
     ]).reduce((sum, element) => (sum.concat(element)), [])
   )

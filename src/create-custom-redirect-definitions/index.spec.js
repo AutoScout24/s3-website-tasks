@@ -41,21 +41,37 @@ describe('create-custom-redirect-definitions', () => {
         urlPathPrefixes: ['website']
       })
       .then(redirectDefinitions => {
-        expect(redirectDefinitions).to.have.length(4);
+        expect(redirectDefinitions).to.have.length(8);
         expect(redirectDefinitions[0]).to.deep.equal({
           s3Key: 'content/be/fr/d/index.html',
           redirectUrl: 'https://www.autoscout24.be/fr/website/d-redirect/'
         });
         expect(redirectDefinitions[1]).to.deep.equal({
+          s3Key: 'content/be/fr/d',
+          redirectUrl: 'https://www.autoscout24.be/fr/website/d-redirect/'
+        });
+        expect(redirectDefinitions[2]).to.deep.equal({
           s3Key: 'content/de/a/index.html',
           redirectUrl: 'https://www.autoscout24.de/website/a-redirect/'
         });
-        expect(redirectDefinitions[2]).to.deep.equal({
+        expect(redirectDefinitions[3]).to.deep.equal({
+          s3Key: 'content/de/a',
+          redirectUrl: 'https://www.autoscout24.de/website/a-redirect/'
+        });
+        expect(redirectDefinitions[4]).to.deep.equal({
           s3Key: 'content/it/b/index.html',
           redirectUrl: 'https://www.autoscout24.it/website/b-redirect/'
         });
-        expect(redirectDefinitions[3]).to.deep.equal({
+        expect(redirectDefinitions[5]).to.deep.equal({
+          s3Key: 'content/it/b',
+          redirectUrl: 'https://www.autoscout24.it/website/b-redirect/'
+        });
+        expect(redirectDefinitions[6]).to.deep.equal({
           s3Key: 'content/it/c/index.html',
+          redirectUrl: 'https://www.autoscout24.it/website/c-redirect/'
+        });
+        expect(redirectDefinitions[7]).to.deep.equal({
+          s3Key: 'content/it/c',
           redirectUrl: 'https://www.autoscout24.it/website/c-redirect/'
         });
 
@@ -93,24 +109,39 @@ describe('create-custom-redirect-definitions', () => {
         secondLevelDomain: 'autoscout24'
       })
       .then(redirectDefinitions => {
-        expect(redirectDefinitions).to.have.length(4);
+        expect(redirectDefinitions).to.have.length(8);
         expect(redirectDefinitions[0]).to.deep.equal({
           s3Key: 'content/be/fr/path/d/index.html',
           redirectUrl: 'https://www.autoscout24.be/fr/path/d-redirect/'
         });
         expect(redirectDefinitions[1]).to.deep.equal({
+          s3Key: 'content/be/fr/path/d',
+          redirectUrl: 'https://www.autoscout24.be/fr/path/d-redirect/'
+        });
+        expect(redirectDefinitions[2]).to.deep.equal({
           s3Key: 'content/de/path/a/index.html',
           redirectUrl: 'https://www.autoscout24.de/path/a-redirect/'
         });
-        expect(redirectDefinitions[2]).to.deep.equal({
+        expect(redirectDefinitions[3]).to.deep.equal({
+          s3Key: 'content/de/path/a',
+          redirectUrl: 'https://www.autoscout24.de/path/a-redirect/'
+        });
+        expect(redirectDefinitions[4]).to.deep.equal({
           s3Key: 'content/it/path/b/index.html',
           redirectUrl: 'https://www.autoscout24.it/path/b-redirect/'
         });
-        expect(redirectDefinitions[3]).to.deep.equal({
+        expect(redirectDefinitions[5]).to.deep.equal({
+          s3Key: 'content/it/path/b',
+          redirectUrl: 'https://www.autoscout24.it/path/b-redirect/'
+        });
+        expect(redirectDefinitions[6]).to.deep.equal({
           s3Key: 'content/it/path/c/index.html',
           redirectUrl: 'https://www.autoscout24.it/path/c-redirect/'
         });
-
+        expect(redirectDefinitions[7]).to.deep.equal({
+          s3Key: 'content/it/path/c',
+          redirectUrl: 'https://www.autoscout24.it/path/c-redirect/'
+        });
       });
     });
   });

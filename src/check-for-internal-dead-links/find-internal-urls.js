@@ -24,5 +24,6 @@ module.exports = (
 
   const urls = findAllMatches(text, urlRegex).map(matchResult => matchResult[1]);
   const urlsWithoutWebp = urls.filter(url => (url.indexOf('.webp') == -1));
-  return urlsWithoutWebp;
+  const urlsWithoutPdf = urlsWithoutWebp.filter(url => (url.indexOf('.pdf') == -1));
+  return urlsWithoutPdf;
 };

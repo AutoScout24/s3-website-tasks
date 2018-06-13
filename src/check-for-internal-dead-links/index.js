@@ -50,6 +50,7 @@ const getUrlsByFiles = ({files, thirdLevelDomain, secondLevelDomain, urlPathPref
     if (tld == 'ua') { tld='com.ua'; }
     if (tld == 'tr') { tld='com.tr'; }
     const fqdn = `${thirdLevelDomain}.${secondLevelDomain}.${tld}`;
+    console.log("fqdn: " + fqdn);
     const absoluteUrls = urls.map(url => url.includes(fqdn) ? url : `https://${fqdn}${url}`);
     return new UrlsByFile(file.filename, absoluteUrls);
   })

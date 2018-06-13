@@ -47,8 +47,9 @@ const getUrlsByFiles = ({files, thirdLevelDomain, secondLevelDomain, urlPathPref
   files.map(file => {
     const urls = findInternalUrls({text: file.fileContent, thirdLevelDomain, secondLevelDomain, urlPathPrefixes});
     const tld = file.filename.split('/')[2];
+    tld = tld.map(t => t=='ua' ? 'com.ua' : (t=='tr' ? 'com.tr' : t));
     const fqdn = `${thirdLevelDomain}.${secondLevelDomain}.${tld}`;
-    const absoluteUrls = urls.map(url => url.includes(fqdn) ? url : `https://${fqdn}${url}`);
+    const absoluteUrls = urls.map(url => url.includes(fqdn) ? url : `https://${fqdn} ${url}`);
     return new UrlsByFile(file.filename, absoluteUrls);
   })
 );

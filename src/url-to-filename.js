@@ -10,8 +10,7 @@ module.exports = ({url, urlPathPrefixes = []}) => {
     const belgiumPathPrefix = '(nl\\/|fr\\/)?';
     let contentUrlRegex = new RegExp(`^[^.]+\\.[^.]+\\.([^/]+)\\/${belgiumPathPrefix}${urlPathPrefixesGroup}(.*)$`);
     urlWithoutProtocol = (/\/$/.test(urlWithoutProtocol)) ? urlWithoutProtocol : `${urlWithoutProtocol}/`;
-    let result = urlWithoutProtocol.replace(contentUrlRegex, 'content/$1/$2$3index.html');
-    result.replace('com.ua','ua').replace('com.tr','tr');
+    let result = urlWithoutProtocol.replace(contentUrlRegex, 'content/$1/$2$3index.html').replace('com.ua','ua').replace('com.tr','tr');
     console.log("urlWithoutProtocol " + urlWithoutProtocol);
     console.log("result " + result);
     return result;

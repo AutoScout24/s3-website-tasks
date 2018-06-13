@@ -20,7 +20,7 @@ const FILES_CHUNK_SIZE = 1000;
 module.exports = (
   {rootDirectory, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes, filesChunkSize = FILES_CHUNK_SIZE}
 ) => globAsync(`${rootDirectory}/content/**/*.html`)
-.then(async (filenames) => {
+.then(async(filenames) => {
   const filenameChunks = chunkArray(filenames, filesChunkSize);
   const deadLinksByFilesChunks = [];
   for (let i = 0; i < filenameChunks.length; i++) {

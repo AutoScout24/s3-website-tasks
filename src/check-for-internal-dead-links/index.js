@@ -46,7 +46,7 @@ const checkFilesForDeadLinks = (
 const getUrlsByFiles = ({files, thirdLevelDomain, secondLevelDomain, urlPathPrefixes}) => Promise.all(
   files.map(file => {
     const urls = findInternalUrls({text: file.fileContent, thirdLevelDomain, secondLevelDomain, urlPathPrefixes});
-    const tld = file.filename.split('/')[2];
+    let tld = file.filename.split('/')[2];
     if (tld == 'ua') { tld='com.ua'; }
     if (tld == 'tr') { tld='com.tr'; }
     const fqdn = `${thirdLevelDomain}.${secondLevelDomain}.${tld}`;

@@ -14,6 +14,11 @@ const attributeNamesString = attributeNames.join('|');
 module.exports = (
   {text, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes}
 ) => {
+  const invalidQuotationMarksRegex = new RegExp(`(${attributeNamesString})=[“|'](.*)[“|']`, 'gi');
+  if(invalidQuotationMarksRegex.test(text)) {
+    text = text.match(invalidQuotationMarksRegex);
+    throw new Error(`${text[0]} includes invalid quotation marks`);
+  }
   const protocol = 'https?:\\/\\/';
   const fqdn = `${thirdLevelDomain}\\.${secondLevelDomain}\\.[^/]+?`;
   const urlPathPrefxes = urlPathPrefixes ? `(?:${urlPathPrefixes.join('|')})` : '';

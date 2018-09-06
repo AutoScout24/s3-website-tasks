@@ -60,9 +60,12 @@ const getDeadLinksByFiles = ({urlsByFiles, rootDirectory, urlPathPrefixes}) => P
     let deadLinks = [];
     return Promise.all(
       urlsByFile.urls.map(
-        url => statAsync(
-          `${rootDirectory}/${urlToFilename({url, urlPathPrefixes})}`
-        ).catch(() => deadLinks.push(url))
+        url => {
+          if(url.includes('“')) {throw new Error('Url includes wrong character “')}
+          statAsync(
+            `${rootDirectory}/${urlToFilename({url, urlPathPrefixes})}`
+          ).catch(() => deadLinks.push(url))
+        }
       )
     )
     .then(() => new DeadLinksByFile(urlsByFile.filename, deadLinks));

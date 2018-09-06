@@ -62,7 +62,7 @@ const getDeadLinksByFiles = ({urlsByFiles, rootDirectory, urlPathPrefixes}) => P
       urlsByFile.urls.map(
         url => {
           if(url.includes('“')) {throw new Error('Url includes wrong character “')}
-          statAsync(
+          return statAsync(
             `${rootDirectory}/${urlToFilename({url, urlPathPrefixes})}`
           ).catch(() => deadLinks.push(url))
         }

@@ -10,7 +10,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
       secondLevelDomain: 'autoscout24',
       urlPathPrefixes: ['my-service']
     });
-    expect(internalUrls).not.to.include(url);
+    expect(internalUrls.urls).not.to.include(url);
   });
 
   it('should not include the url given it contains another second third domain than provided', () => {
@@ -21,7 +21,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
       thirdLevelDomain: 'ww2',
       urlPathPrefixes: ['my-service']
     });
-    expect(internalUrls).not.to.include(url);
+    expect(internalUrls.urls).not.to.include(url);
   });
 
   describe('given an absolute url which starts with a valid url path prefix', () => {
@@ -34,7 +34,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
           secondLevelDomain: 'autoscout24',
           urlPathPrefixes: ['my-service']
         });
-        expect(internalUrls).to.include(contentUrl);
+        expect(internalUrls.urls).to.include(contentUrl);
       });
     };
 
@@ -49,7 +49,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).not.to.include(contentUrl);
+      expect(internalUrls.urls).not.to.include(contentUrl);
     });
 
     it('should include the url given it is an assets url', () => {
@@ -59,7 +59,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).to.include(imageUrl);
+      expect(internalUrls.urls).to.include(imageUrl);
     });
 
     it('should not include the url given it is a webp file', () => {
@@ -69,7 +69,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).not.to.include(imageUrl);
+      expect(internalUrls.urls).not.to.include(imageUrl);
     });
 
   });
@@ -84,7 +84,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
           secondLevelDomain: 'autoscout24',
           urlPathPrefixes: ['my-service']
         });
-        expect(internalUrls).to.include(contentUrl);
+        expect(internalUrls.urls).to.include(contentUrl);
       });
     };
 
@@ -99,7 +99,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).not.to.include(contentUrl);
+      expect(internalUrls.urls).not.to.include(contentUrl);
     });
 
     it('should include the url given it is an assets url', () => {
@@ -109,7 +109,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).to.include(imageUrl);
+      expect(internalUrls.urls).to.include(imageUrl);
     });
 
     it('should not include the url given it is a webp file', () => {
@@ -119,7 +119,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).not.to.include(imageUrl);
+      expect(internalUrls.urls).not.to.include(imageUrl);
     });
 
   });
@@ -133,7 +133,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
           text: `<img ${attributeName}="${contentUrl}">`,
           secondLevelDomain: 'autoscout24'
         });
-        expect(internalUrls).to.include(contentUrl);
+        expect(internalUrls.urls).to.include(contentUrl);
       });
     };
 
@@ -147,7 +147,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         text: `<a some-attribute="${contentUrl}">`,
         secondLevelDomain: 'autoscout24'
       });
-      expect(internalUrls).not.to.include(contentUrl);
+      expect(internalUrls.urls).not.to.include(contentUrl);
     });
 
     it('should include the url given it contains the assets prefix', () => {
@@ -156,7 +156,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         text: `<img src="${imageUrl}">`,
         secondLevelDomain: 'autoscout24'
       });
-      expect(internalUrls).to.include(imageUrl);
+      expect(internalUrls.urls).to.include(imageUrl);
     });
 
     it('should not include the url given it is a webp file', () => {
@@ -165,7 +165,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         text: `<img src="${imageUrl}">`,
         secondLevelDomain: 'autoscout24'
       });
-      expect(internalUrls).not.to.include(imageUrl);
+      expect(internalUrls.urls).not.to.include(imageUrl);
     });
 
   });
@@ -179,7 +179,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).not.to.include(url);
+      expect(internalUrls.urls).not.to.include(url);
     });
 
     it('should not include it given it is a relative url', () => {
@@ -189,7 +189,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).not.to.include(url);
+      expect(internalUrls.urls).not.to.include(url);
     });
 
     it('should not include it given it is an assets url', () => {
@@ -199,7 +199,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service']
       });
-      expect(internalUrls).not.to.include(url);
+      expect(internalUrls.urls).not.to.include(url);
     });
 
   });
@@ -213,7 +213,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service-2', 'my-service-1']
       });
-      expect(internalUrls).to.include(url);
+      expect(internalUrls.urls).to.include(url);
     });
 
     it('should include it given it is a relative url', () => {
@@ -223,7 +223,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service-2', 'my-service-1']
       });
-      expect(internalUrls).to.include(url);
+      expect(internalUrls.urls).to.include(url);
     });
   });
 
@@ -236,7 +236,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service-1']
       });
-      expect(internalUrls).to.include(url);
+      expect(internalUrls.urls).to.include(url);
     });
 
     it('should include it given it is a relative url', () => {
@@ -246,7 +246,7 @@ describe('check-for-internal-dead-links/find-internal-urls', () => {
         secondLevelDomain: 'autoscout24',
         urlPathPrefixes: ['my-service-1']
       });
-      expect(internalUrls).to.include(url);
+      expect(internalUrls.urls).to.include(url);
     });
   });
 

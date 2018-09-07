@@ -14,11 +14,6 @@ const attributeNamesString = attributeNames.join('|');
 module.exports = (
   {text, thirdLevelDomain = 'www', secondLevelDomain, urlPathPrefixes}
 ) => {
-  const invalidQuotationMarksRegex = new RegExp(`(${attributeNamesString})=[“|'](.*)[“|']`, 'gi');
-  if(invalidQuotationMarksRegex.test(text)) {
-    text = text.match(invalidQuotationMarksRegex);
-    throw new Error(`${text[0]} includes invalid quotation marks`);
-  }
   const protocol = 'https?:\\/\\/';
   const fqdn = `${thirdLevelDomain}\\.${secondLevelDomain}\\.[^/]+?`;
   const urlPathPrefxes = urlPathPrefixes ? `(?:${urlPathPrefixes.join('|')})` : '';
@@ -26,9 +21,17 @@ module.exports = (
   const urlRegex = new RegExp(
     `(?:${attributeNamesString})="((?:${protocol}${fqdn})?\\/${assetsAndLanguagePrefixes}${urlPathPrefxes}[^"]*?)"`, 'gi'
   );
+  const invalidQuotationMarkRegex = new RegExp(`(?:${attributeNamesString})=([“|'][^“|^']*[“|'])`, 'gi');
+  const invalidRelativeUrlRegex = new RegExp(`(?:${attributeNamesString})="(?!/|https?|#)([^"]*)"`, 'gi');
 
   const urls = findAllMatches(text, urlRegex).map(matchResult => matchResult[1]);
+  const invalidQuotationMarkMatches = findAllMatches(text, invalidQuotationMarkRegex).map(matchResult => matchResult[1]);
+  const invalidRelativeUrlMatches = findAllMatches(text, invalidRelativeUrlRegex).map(matchResult => matchResult[1]);
+  const invalidUrls = invalidQuotationMarkMatches.concat(invalidRelativeUrlMatches);
   const urlsWithoutWebp = urls.filter(url => (url.indexOf('.webp') == -1));
   const urlsWithoutPdf = urlsWithoutWebp.filter(url => (url.indexOf('.pdf') == -1));
-  return urlsWithoutPdf;
+  return {
+    urls: urlsWithoutPdf,
+    invalidUrls
+  };
 };

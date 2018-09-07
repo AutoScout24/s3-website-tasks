@@ -45,25 +45,26 @@ const checkFilesForDeadLinks = (
 
 const getUrlsByFiles = ({files, thirdLevelDomain, secondLevelDomain, urlPathPrefixes}) => Promise.all(
   files.map(file => {
-    const urls = findInternalUrls({text: file.fileContent, thirdLevelDomain, secondLevelDomain, urlPathPrefixes});
+    const allUrls = findInternalUrls({text: file.fileContent, thirdLevelDomain, secondLevelDomain, urlPathPrefixes});
     let tld = file.filename.split('/')[2];
     if (tld == 'ua') { tld='com.ua'; }
     if (tld == 'tr') { tld='com.tr'; }
     const fqdn = `${thirdLevelDomain}.${secondLevelDomain}.${tld}`;
-    const absoluteUrls = urls.map(url => url.includes(fqdn) ? url : `https://${fqdn}${url}`);
-    return new UrlsByFile(file.filename, absoluteUrls);
+    const absoluteUrls = allUrls.urls.map(url => url.includes(fqdn) ? url : `https://${fqdn}${url}`);
+    return new UrlsByFile(file.filename, absoluteUrls, allUrls.invalidUrls);
   })
 );
 
 const getDeadLinksByFiles = ({urlsByFiles, rootDirectory, urlPathPrefixes}) => Promise.all(
   urlsByFiles.map(urlsByFile => {
-    let deadLinks = [];
+    let deadLinks = urlsByFile.invalidUrls;
+    console.log(deadLinks);
     return Promise.all(
       urlsByFile.urls.map(
         url => {
           return statAsync(
             `${rootDirectory}/${urlToFilename({url, urlPathPrefixes})}`
-          ).catch(() => deadLinks.push(url))
+          ).catch(() => deadLinks.push(url));
         }
       )
     )

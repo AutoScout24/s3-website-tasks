@@ -58,7 +58,6 @@ const getUrlsByFiles = ({files, thirdLevelDomain, secondLevelDomain, urlPathPref
 const getDeadLinksByFiles = ({urlsByFiles, rootDirectory, urlPathPrefixes}) => Promise.all(
   urlsByFiles.map(urlsByFile => {
     let deadLinks = urlsByFile.invalidUrls;
-    console.log(deadLinks);
     return Promise.all(
       urlsByFile.urls.map(
         url => {

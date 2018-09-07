@@ -22,7 +22,7 @@ module.exports = (
     `(?:${attributeNamesString})="((?:${protocol}${fqdn})?\\/${assetsAndLanguagePrefixes}${urlPathPrefxes}[^"]*?)"`, 'gi'
   );
   const invalidQuotationMarkRegex = new RegExp(`(?:${attributeNamesString})=([“|'][^“|^']*[“|'])`, 'gi');
-  const invalidRelativeUrlRegex = new RegExp(`\\s(?:${attributeNamesString})="(?!/|https?|#|android-app://)([^"]*)"`, 'gi');
+  const invalidRelativeUrlRegex = new RegExp(`\\s(?:${attributeNamesString})="(?!/|https?|#|android-app://|data:)([^"]*)"`, 'gi');
 
   const urls = findAllMatches(text, urlRegex).map(matchResult => matchResult[1]);
   const invalidQuotationMarkMatches = findAllMatches(text, invalidQuotationMarkRegex).map(matchResult => matchResult[1]);

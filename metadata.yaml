@@ -1,0 +1,13 @@
+type: ignore
+id: s3-website-tasks
+name: s3-website-tasks
+vertical: as24
+owners:
+- '#AS24-acquisition-cxp-ds@scout24.com'
+links:
+- type: repository
+  title: Git Repository
+  address: https://github.com/Scout24/s3-website-tasks
+- type: documentation
+  title: Readme
+  address: https://github.com/Scout24/s3-website-tasks/blob/master/README.md

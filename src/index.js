@@ -1,4 +1,5 @@
 module.exports = {
+  checkForDeadLinks: require('./check-for-dead-links'),
   checkForInternalDeadLinks: require('./check-for-internal-dead-links'),
   createDeadLinksReport: require('./check-for-internal-dead-links/create-report'),
   createOrUpdateStack: require('./create-or-update-stack'),

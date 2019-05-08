@@ -55,15 +55,21 @@ const getUrlsByFiles = ({files, thirdLevelDomain, secondLevelDomain, urlPathPref
   })
 );
 
+const replaceSlash = (path) => {
+  if (path.indexOf("//") == -1) {
+    return path;
+  }
+  return replaceSlash(path.replace(new RegExp('//', 'g'), '/'));
+}
+
 const getDeadLinksByFiles = ({urlsByFiles, objectList, urlPathPrefixes}) => Promise.all(
   urlsByFiles.map(urlsByFile => {
     let deadLinks = urlsByFile.invalidUrls;
     return Promise.all(
       urlsByFile.urls.map(
         url => {
-          const filename = urlToFilename({url, urlPathPrefixes});
+          const filename = replaceSlash(urlToFilename({url, urlPathPrefixes}));
           if (!objectList.includes(filename)) {
-            console.log(filename)
             deadLinks.push(url)
           }
         }

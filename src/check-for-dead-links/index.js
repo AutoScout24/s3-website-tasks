@@ -68,7 +68,7 @@ const getDeadLinksByFiles = ({urlsByFiles, objectList, urlPathPrefixes}) => Prom
     return Promise.all(
       urlsByFile.urls.map(
         url => {
-          const filename = replaceSlash(urlToFilename({url, urlPathPrefixes}));
+          const filename = replaceSlash(urlToFilename({url, urlPathPrefixes})).toLowerCase();
           if (!objectList.includes(filename)) {
             deadLinks.push(url)
           }

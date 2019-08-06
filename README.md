@@ -73,7 +73,7 @@ All tasks return a `Promise` object.
 
 Scans all html files found in `rootDirectory` for internal dead links. Both relative and absolute urls are taking into account.  **Relative URLs are only supported for paths starting with /**. Links are internal if at least their `thirdLevelDomain` and `secondLevelDomain` match the provided arguments. Additionally, if `urlPathPrefixes` are provided a link URL path needs to start with one of them to count as internal.
 
-The function yields a list `DeadLinksByFile` objects which have the following structure: `{filename, deadLinks}`.
+The function yields a list of `DeadLinksByFile` objects which have the following structure: `{filename, deadLinks}`.
 
 **Note:** This task ignores webp files.
 
@@ -90,7 +90,7 @@ Creates a csv string out of a list of `DeadLinksByFile` objects. The output from
 * **secondLevelDomain** - Second level domain of the FQDN (e.g. autoscout24)
 * **urlPathPrefixes** - Optional array of url path prefixes (both content and assets)
 
-Creates custom redirect definitions to upload 0 byte S3 objects for 301 redirects using `x-amz-website-redirect-location` metadata. The `redirectsDirectory` is scanned for csv files which must have the TLD as filename (example: `de.csv`). The first column is the url FROM which is redirected and the second column the url TO which is redirected. The `thirdLevelDomain` abd `secondLevelDomain` parameters are required in order to construct the correct redirect URL. The optional `urlPathPrefixes` are used to remove URL path prefixes from the resulting S3 object keys.
+Creates custom redirect definitions to upload 0 byte S3 objects for 301 redirects using `x-amz-website-redirect-location` metadata. The `redirectsDirectory` is scanned for csv files which must have the TLD as filename (example: `de.csv`). The first column is the url FROM which is redirected and the second column the url TO which is redirected. The `thirdLevelDomain` and `secondLevelDomain` parameters are required in order to construct the correct redirect URL. The optional `urlPathPrefixes` are used to remove URL path prefixes from the resulting S3 object keys.
 
 **Note:** This function assumes HTTPS as protocol.
 

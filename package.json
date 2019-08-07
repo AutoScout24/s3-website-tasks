@@ -30,7 +30,7 @@
     "imagemin-webp": "^5.1.0",
     "mocha": "5.0.0",
     "mock-fs": "4.5.0",
-    "sinon": "4.2.2",
-    "sinon-chai": "2.14.0"
+    "sinon": "7.4.1",
+    "sinon-chai": "3.3.0"
   }
 }

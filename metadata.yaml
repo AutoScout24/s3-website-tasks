@@ -1,0 +1,5 @@
+type: ignore
+vertical: as24
+owners:
+  - '#AS24-acquisition-cxp-ds@scout24.com'
+  - as24-cxp-acquisition@scout24.com

@@ -1,10 +1,20 @@
 # S3 website tasks
 
-[![Build Status](https://travis-ci.org/Scout24/s3-website-tasks.svg?branch=master)](https://travis-ci.org/Scout24/s3-website-tasks)
+[![Build Status](https://travis-ci.org/AutoScout24/s3-website-tasks.svg?branch=master)](https://travis-ci.org/AutoScout24/s3-website-tasks)
 
 ## Description
 
 Node.js build tasks for a multilingual website hosted in S3.
+
+
+## Owner
+
+Team: [AS24 UG Acqusition](https://github.com/orgs/AutoScout24/teams/as24-ro-ug-acquisition/members)
+
+Email: as24-ug-acquisition@autoscout24.com
+
+Slack: #ug-acquisition
+
 
 ## Project requirements
 

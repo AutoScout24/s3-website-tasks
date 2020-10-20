@@ -1,0 +1,9 @@
+deleteBranchAfterMerge: true
+reportStatus: true
+blockingLabels: [blocked]
+
+rules:
+  - requiredLabels: [docker, dependencies]
+  - requiredBodyRegex: 'labels: (library|test-library|sbt-plugin)-update, semver-(patch|minor)'
+  - requiredLabels: [merge]
+    minApprovals: { NONE: 1 }
